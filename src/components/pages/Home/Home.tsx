@@ -3,7 +3,6 @@ import Section from "../../atoms/Section/Section";
 import News from "../../molecules/News/News";
 import CellarList from "../../organisms/CellarList/CellarList";
 import Footer from "../../organisms/Footer/Footer";
-import Navbar from "../../organisms/Navbar/Navbar";
 import "./Home.css";
 
 type ListedProduct = {
@@ -57,7 +56,6 @@ const Home = () => {
 
   return (
     <div className="Home">
-      <Navbar />
       <Section
         bgImg="https://images.unsplash.com/photo-1609238000857-303bf54099b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80"
         bgColor="#181818"
@@ -67,7 +65,7 @@ const Home = () => {
           <h2>Wine so good you'll need a top-level security clearance.</h2>
         </div>
       </Section>
-      <Section bgColor="#ffffff">
+      <Section id="cellar-preview" bgColor="#ffffff">
         <div className="CellarPreview">
           <h2>Our Cellar</h2>
           <a href="v">View all</a>
@@ -75,9 +73,9 @@ const Home = () => {
         </div>
       </Section>
       <Section bgColor="#2c1919">
-        <News />
+        <News id="newsletter" />
       </Section>
-      <Section bgColor="#ffffff">
+      <Section id="about" bgColor="#ffffff">
         <div className="About">
           <h2>About us</h2>
         </div>

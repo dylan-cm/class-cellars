@@ -1,4 +1,6 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import NavButton from "../../atoms/NavButton/NavButton";
 import "./Navbar.css";
 
@@ -8,18 +10,23 @@ const Navbar = ({ ...props }: NavbarProps) => {
   return (
     <div className="Navbar">
       <div className="NavbarWrapper">
-        <div className="Logo">
-          <span>Logo</span>
-        </div>
+        <HashLink to="/#top" className="Logo" smooth>
+          Logo
+        </HashLink>
         <div className="NavButtons">
-          <NavButton label="About" />
-          <NavButton label="Newsletter" />
-          <NavButton label="Cellar" />
-          <NavButton label="Account" />
+          <NavButton hash label="About" link="about" />
+          <NavButton hash label="Newsletter" link="newsletter" center />
+          <NavButton hash label="Cellar" link="cellar-preview" />
+          <NavButton label="Account" link="account" />
         </div>
-        <div className="CartButtonWrapper">
-          <span>Cart</span>
-        </div>
+        <NavLink
+          to="cart"
+          className={({ isActive, isPending }) =>
+            "CartNav " + (isActive ? "Active" : isPending ? "Pending" : "")
+          }
+        >
+          Cart
+        </NavLink>
       </div>
     </div>
   );

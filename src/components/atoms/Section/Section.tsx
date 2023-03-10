@@ -6,6 +6,7 @@ interface SectionProps {
   children?: React.ReactNode;
   bgColor: string;
   bgImg?: string;
+  id?: string;
 }
 
 const Section = ({ ...props }: SectionProps) => {
@@ -16,6 +17,7 @@ const Section = ({ ...props }: SectionProps) => {
   );
   return (
     <div
+      id={props.id}
       className="Section"
       style={{
         color: textColor,

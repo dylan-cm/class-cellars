@@ -3,7 +3,9 @@ import "./News.css";
 import ActionButton from "../../atoms/ActionButton/ActionButton";
 import { Status } from "../../../constants";
 
-interface NewsProps {}
+interface NewsProps {
+  id?: string;
+}
 
 const News = ({ ...props }: NewsProps) => {
   const [email, setEmail] = useState("");
@@ -27,6 +29,7 @@ const News = ({ ...props }: NewsProps) => {
         <h2>Thank You!</h2>
       ) : (
         <input
+          id={props.id}
           type="email"
           value={email}
           onChange={(e) =>

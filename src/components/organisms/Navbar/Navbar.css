@@ -23,13 +23,11 @@
   max-width: 1200px;
   height: 100%;
   width: 100%;
-  
-  background-color: green;
 }
 
 .Logo{
   width: 120px;
-  background-color: aqua;
+  background-color: #777;
 
   display: flex;
   justify-content: center;
@@ -45,9 +43,9 @@
   width: 100%;
 }
 
-.CartButtonWrapper{
+.CartNav{
   width: 120px;
-  background-color: aqua;
+  background-color: #777;
 
   display: flex;
   justify-content: center;
