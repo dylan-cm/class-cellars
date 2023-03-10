@@ -5,24 +5,28 @@ import "./BigProductCard.css";
 import ActionButton from "../../atoms/ActionButton/ActionButton";
 
 import { addToCart } from "../../../functions/actions";
-import { displayPrice } from "../../../functions/localization";
+import { displayPrice } from "../../../functions/utilities";
 
 //TODO: get types from shopify
 interface BigProductCardProps {
-  imgURL: string;
+  thumbnail: string;
   title: string;
   shortDescription: string;
-  productID: string;
+  id: string;
   price: number;
   year: string;
 }
 
 const BigProductCard: React.FC<BigProductCardProps> = ({ ...props }) => {
   return (
-    <div className="BigProductCard" id={"BigProductCard-" + props.productID}>
+    <div className="BigProductCard" id={"BigProductCard-" + props.id}>
       <Paper>
         <div className="LayoutContentWrapper">
-          <img className="ProductImg" src={props.imgURL} alt="productImage" />
+          <img
+            className="ProductImg"
+            src={props.thumbnail}
+            alt="productImage"
+          />
           <div className="LayoutDetails">
             <h4>{props.title}</h4>
             <div className="Row">
@@ -35,7 +39,7 @@ const BigProductCard: React.FC<BigProductCardProps> = ({ ...props }) => {
             </div>
           </div>
           <div className="Row Actions">
-            <ActionButton onClick={() => addToCart(props.productID)}>
+            <ActionButton onClick={() => addToCart(props.id)}>
               Add to Cart
             </ActionButton>
           </div>

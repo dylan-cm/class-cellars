@@ -1,17 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-// import Home from "./components/pages/Home/Home";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import ComponentTesting from "./components/pages/ComponentTesting/ComponentTesting";
+
+import Home from "./components/pages/Home/Home";
+// import ComponentTesting from "./components/pages/ComponentTesting/ComponentTesting";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <ComponentTesting />
+    <Home />
   </React.StrictMode>
 );
 

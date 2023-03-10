@@ -1,11 +1,25 @@
 .Home {
-  text-align: center;
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  
+  background-color: #fff;
+
+  font-size: 1rem;
+  color: #000;;
+}
+
+.About, .CellarPreview, .Hero {
+  min-height: 50vh;
+
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+}
+
+.Hero{
+  /* color: #000; */
 }
