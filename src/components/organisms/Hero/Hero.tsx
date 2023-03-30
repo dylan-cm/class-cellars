@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import "./Hero.css";
 import blobs from "../../../assets/blobs.png";
+import { submitEmail } from "../../../functions/actions";
 
 interface HeroProps {}
 
 const Hero = ({ ...props }: HeroProps) => {
   const [email, setEmail] = useState("");
-
-  const submitEmail = async () => {};
 
   return (
     <div className="Hero">
@@ -37,7 +36,7 @@ const Hero = ({ ...props }: HeroProps) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <div className="HeroJoinButton" onClick={submitEmail}>
+            <div className="HeroJoinButton" onClick={() => submitEmail(email)}>
               Join
             </div>
           </div>
