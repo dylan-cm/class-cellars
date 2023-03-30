@@ -1,53 +1,137 @@
 .Navbar {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-
+  justify-content: space-between;
+  align-items: center;
+  
   width: 100%;
   height: 72px;
-
-  background-color: black;
-  position: sticky;
+  padding: 0px var(--horizontal-padding);
+  box-sizing: border-box;
+  background-color: rgba(255,255,255,0);
+  position: fixed;
   top:0;
-
+  left: 0;
+  right: 0;
+  
   z-index: 100;
   user-select: none;
+  
+  font-size: 18px;
+  font-weight: 500;
+
+  --horizontal-padding: 48px;
+
+  transition: background 300ms;
+}
+.Navbar.scrolled {
+  background-color: rgba(255,255,255,1);
 }
 
-.NavbarWrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-
-  max-width: 1200px;
-  height: 100%;
-  width: 100%;
+a{
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
 }
 
-.Logo{
-  width: 120px;
-  background-color: #777;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@media screen and (max-width:1280px){
+  .Navbar{
+    --horizontal-padding: 24px;
+  }
 }
 
 .NavButtons{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 
-  width: 100%;
+  width: 50%;
+  padding-left: var(--horizontal-padding);
+  box-sizing: border-box;
 }
 
-.CartNav{
-  width: 120px;
-  background-color: #777;
+@media screen and (max-width:960px){
+  .NavButtons{
+    width: 60%;
+  }
+}
 
+.RightButtons{
   display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+}
+
+.SignupButton {
+  background-color: transparent;
+  border-radius: 10px;
+  box-shadow:0px 0px 0px 2px var(--brand-primary) inset;
+
+  padding: 8px 24px;
+
+  color: var(--brand-primary);
+  
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.SignupButton:hover {
+  box-shadow:0px 0px 0px 4px var(--brand-primary) inset;
+
+}
+
+.NavButton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.NavButton path {
+  fill: black;
+}
+
+.Pending path, .Active path, .NavButton:hover path {
+  fill: var(--brand-primary);
+}
+
+.Pending, .Active, .NavButton:hover {
+  color: var(--brand-primary);
+}
+
+@media screen and (max-width:800px) {
+  .Logo{
+    width: 75%;
+  }
+}
+
+.MenuButton {
+  width: 28px;
+  height: 28px;
+
+  background-color: var(--brand-primary);
+}
+
+.MobileButton {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .NavButtons {
+    display: none;
+  }
+
+  .MobileButton {
+    display: block;
+  }
+  
+  .Logo {
+    width: 156px;
+  }
 }

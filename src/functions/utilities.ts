@@ -13,3 +13,9 @@ export const pickTextColorBasedOnBgColorSimple = (
   var b = parseInt(color.substring(4, 6), 16); // hexToB
   return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? darkColor : lightColor;
 };
+
+export const scrollWithOffset = (el: any) => {
+  const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+  const yOffset = -360;
+  window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
+};
