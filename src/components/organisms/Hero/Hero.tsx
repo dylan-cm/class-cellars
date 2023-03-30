@@ -25,7 +25,7 @@ const Hero = ({ ...props }: HeroProps) => {
           <h3>
             At Classified Cellars we bring you a selection of rare Burgundy
             wines that will compliment your style, expand your palette and add a
-            new flair to your collection. Join or Newsletter today to be the
+            new flair to your collection. Join our Newsletter today to be the
             first to know what's coming.
           </h3>
           <div className="EmailCapture">
