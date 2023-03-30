@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { HashLink, NavHashLink } from "react-router-hash-link";
 
 import { ReactComponent as Logo } from "../../../assets/Logo - Light.svg";
@@ -12,8 +12,13 @@ interface NavbarProps {}
 const Navbar = ({ ...props }: NavbarProps) => {
   const [navbarBackground, setNavbarBackground] = useState(false);
   const location = useLocation();
-  const getClass = (label: string) =>
+  const getHashClass = (label: string) =>
     "NavButton " + (location.hash.slice(1) === label ? "Active" : "");
+  const getLinkClass = (label: string) => {
+    return (
+      "NavButton " + (location.pathname.slice(1) === label ? "Active" : "")
+    );
+  };
 
   useEffect(() => {
     if (location.pathname !== "/") setNavbarBackground(true);
@@ -35,32 +40,22 @@ const Navbar = ({ ...props }: NavbarProps) => {
         <Logo className="Logo" />
       </HashLink>
       <div className="NavButtons">
-        <NavHashLink to="/#cellar" className={getClass("cellar")} smooth>
+        <NavHashLink to="/#cellar" className={getHashClass("cellar")} smooth>
           Cellar
         </NavHashLink>
-        <NavHashLink to="/#learn" className={getClass("learn")} smooth>
+        <NavHashLink to="/#learn" className={getHashClass("learn")} smooth>
           Learn
         </NavHashLink>
-        <NavHashLink to="/#about" className={getClass("about")} smooth>
+        <NavHashLink to="/#about" className={getHashClass("about")} smooth>
           About
         </NavHashLink>
         <div className="RightButtons">
-          <NavLink
-            to="account"
-            className={({ isActive, isPending }) =>
-              "NavButton " + (isActive ? "Active" : isPending ? "Pending" : "")
-            }
-          >
-            <AccountIcon fill="#CB002D" />
-          </NavLink>
-          <NavLink
-            to="cart"
-            className={({ isActive, isPending }) =>
-              "NavButton " + (isActive ? "Active" : isPending ? "Pending" : "")
-            }
-          >
-            <CartIcon fill="#CB002D" />
-          </NavLink>
+          <NavHashLink to="account" className={getLinkClass("account")}>
+            <AccountIcon />
+          </NavHashLink>
+          <NavHashLink to="cart" className={getLinkClass("cart")}>
+            <CartIcon />
+          </NavHashLink>
           <HashLink to="/#newsletter" smooth>
             <div className="SignupButton">Sign Up</div>
           </HashLink>

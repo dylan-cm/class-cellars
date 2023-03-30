@@ -82,14 +82,17 @@ a{
 
 .SignupButton:hover {
   box-shadow:0px 0px 0px 4px var(--brand-primary) inset;
+}
 
+.SignupButton:active {
+  box-shadow:0px 0px 0px 2px var(--brand-primary) inset;
 }
 
 .NavButton{
   display: flex;
   align-items: center;
   justify-content: center;
-
+  
   cursor: pointer;
 }
 
