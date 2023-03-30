@@ -19,6 +19,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
       "NavButton " + (location.pathname.slice(1) === label ? "Active" : "")
     );
   };
+  const isSticky = () => (location.pathname === "/" ? "" : " Sticky");
 
   useEffect(() => {
     if (location.pathname !== "/") setNavbarBackground(true);
@@ -33,7 +34,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
 
   return (
     <div
-      className="Navbar"
+      className={"Navbar" + isSticky()}
       style={{ background: navbarBackground ? "white" : "transparent" }}
     >
       <HashLink to="/#top" smooth>

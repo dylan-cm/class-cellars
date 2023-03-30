@@ -27,6 +27,9 @@
 .Navbar.scrolled {
   background-color: rgba(255,255,255,1);
 }
+.Sticky {
+  position: sticky;
+}
 
 a{
   color: black;
