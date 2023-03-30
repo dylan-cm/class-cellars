@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./Root";
+import Account from "./components/pages/Account/Account";
+import Cart from "./components/pages/Cart/Cart";
 
 const Home = lazy(() => import("./components/pages/Home/Home"));
 const ErrPage = lazy(() => import("./components/pages/ErrPage/ErrPage"));
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
       {
         path: "",
         element: suspenseful(<Home />),
+      },
+      {
+        path: "/account",
+        element: suspenseful(<Account />),
+      },
+      {
+        path: "/cart",
+        element: suspenseful(<Cart />),
       },
       {
         path: "/test",
