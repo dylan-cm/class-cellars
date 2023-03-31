@@ -2,13 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  --section-padding-horizontal: 12px;
 
-  width: 100%;
-  padding: 36px var(--section-padding-horizontal);
-
+  /* width: 100%; */
+  
   box-sizing: border-box;
-
+  
   background-position: center;
   background-size: cover;
 }
@@ -17,8 +15,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
-  max-width: calc(1200px - var(--section-padding-horizontal));
+  /* padding: 36px 12px; */
+  max-width: 1200px;
   box-sizing: border-box;
+}
+
+@media screen and (max-width:600){
+  .Section{
+    padding: 0px;
+  }
 }

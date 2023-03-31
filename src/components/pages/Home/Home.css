@@ -4,21 +4,19 @@
   align-items: center;
   justify-content: flex-start;
   min-height: 100vh;
-  width: 100%;
-  
-  background-color: #fff;
+  /* width: 100%; */
 
   font-size: 1rem;
-  color: #000;;
+  color: var(--lm-text);
 
   box-sizing: border-box;
 }
 
-.About, .CellarPreview {
+/* .About, .CellarPreview {
   min-height: 50vh;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+} */

@@ -8,7 +8,7 @@
   height: 72px;
   padding: 0px var(--horizontal-padding);
   box-sizing: border-box;
-  background-color: rgba(255,255,255,0);
+  background-color: var(--brand-white-rgba-trans);
   position: fixed;
   top:0;
   left: 0;
@@ -21,18 +21,27 @@
   font-weight: 500;
 
   --horizontal-padding: 48px;
+  --transition-time: 0ms;
 
-  transition: background 300ms;
+  background: var(--brand-white);
+  transition: background --transition-time;
 }
 .Navbar.scrolled {
-  background-color: rgba(255,255,255,1);
+  background-color: var(--brand-white-rgba);
 }
 .Sticky {
   position: sticky;
 }
+.MenuNavBackground{
+  background: var(--brand-lm-30-mid);
+  /* position: fixed; */
+}
+.NoNavBackground{
+  background: transparent;
+}
 
 a{
-  color: black;
+  color: var(--brand-black);
   text-decoration: none;
   font-weight: 500;
   font-size: 18px;
@@ -44,6 +53,11 @@ a{
   }
 }
 
+.Logo{
+  fill: var(--brand-black);
+  transition: fill var(--transition-time);
+}
+
 .NavButtons{
   display: flex;
   flex-direction: row;
@@ -53,6 +67,8 @@ a{
   width: 50%;
   padding-left: var(--horizontal-padding);
   box-sizing: border-box;
+
+  z-index: 101;
 }
 
 @media screen and (max-width:960px){
@@ -71,24 +87,26 @@ a{
 .SignupButton {
   background-color: transparent;
   border-radius: 10px;
-  box-shadow:0px 0px 0px 2px var(--brand-primary) inset;
+  box-shadow:0px 0px 0px 2px var(--brand-lm-10-mid) inset;
 
   padding: 8px 24px;
 
-  color: var(--brand-primary);
+  color: var(--brand-lm-10-mid);
   
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  transition: all var(--transition-time);
 }
 
 .SignupButton:hover {
-  box-shadow:0px 0px 0px 4px var(--brand-primary) inset;
+  box-shadow:0px 0px 0px 4px var(--brand-lm-10-mid) inset;
 }
 
 .SignupButton:active {
-  box-shadow:0px 0px 0px 2px var(--brand-primary) inset;
+  box-shadow:0px 0px 0px 2px var(--brand-lm-10-mid) inset;
 }
 
 .NavButton{
@@ -100,15 +118,15 @@ a{
 }
 
 .NavButton path {
-  fill: black;
+  fill: var(--brand-black);
 }
 
 .Pending path, .Active path, .NavButton:hover path {
-  fill: var(--brand-primary);
+  fill: var(--brand-lm-10-mid);
 }
 
 .Pending, .Active, .NavButton:hover {
-  color: var(--brand-primary);
+  color: var(--brand-lm-10-mid);
 }
 
 @media screen and (max-width:800px) {
@@ -117,27 +135,130 @@ a{
   }
 }
 
-.MenuButton {
-  width: 28px;
-  height: 28px;
-
-  background-color: var(--brand-primary);
-}
-
-.MobileButton {
+.Mobile {
   display: none;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 720px) {
+  .Navbar{
+    --horizontal-padding:16px
+  }
   .NavButtons {
     display: none;
   }
 
-  .MobileButton {
+  .Mobile {
     display: block;
   }
   
   .Logo {
     width: 156px;
+  }
+
+
+  .LightSignup {
+    color: var(--brand-white);
+    box-shadow:0px 0px 0px 2px var(--brand-white) inset;
+  }
+
+  .LightLogo{
+    fill: var(--brand-white);
+  }
+
+  .MenuOpenButton {
+    width: 24px;
+    aspect-ratio: 1;
+
+    fill: var(--brand-lm-10-mid);
+  }
+
+  .MenuCloseButton {
+    width: 24px;
+    aspect-ratio: 1;
+
+    fill: var(--brand-white);
+  }
+
+
+  @keyframes fadeIn {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    .001% {
+        display: flex;
+    }
+
+    100% {
+        display: flex;
+        opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    0% {
+        display: flex;
+        opacity: 1;
+    }
+
+    .999% {
+        display: flex;
+    }
+
+    100% {
+        display: none;
+        opacity: 0;
+    }
+  }
+
+  .Visible {
+    display: flex;
+    /* animation: fadeIn var(--transition-time) ease-in forwards; */
+  }
+
+  .Invisible {
+    display: none;
+    /* animation: fadeOut var(--transition-time) ease-in forwards; */
+  }
+
+  .NavButton path {
+    fill: var(--lm-text-alt);
+  }
+  .Pending path, .Active path, .NavButton:hover path {
+    fill: var(--brand-lm-10-lit);
+  }
+  
+  .Menu {
+    width: 100vw;
+    height: 100%;
+
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding-top: 48px;
+    
+    z-index: 99;
+
+    position: fixed;
+
+    background-color: var(--brand-lm-30-mid);
+  }
+
+  .MenuLink {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+
+    padding: 24px 0px 24px 48px;
+
+    font-size: 28px;
+    color: var(--lm-text-alt);
+  }
+  
+  .Pending, .Active, .NavButton:hover {
+    color: var(--brand-lm-10-lit);
   }
 }
