@@ -35,7 +35,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "react-scripts build && firebase deploy"
+    "deploy": "react-scripts build && firebase hosting:channel:deploy preview-site-internal",
+    "deploy-client": "action-confirmation 'deploy-client' && react-scripts build && firebase hosting:channel:deploy preview-site-client",
+    "deploy-live": "action-confirmation 'deploy-live' && react-scripts build && firebase deploy --only hosting"
   },
   "eslintConfig": {
     "extends": [
