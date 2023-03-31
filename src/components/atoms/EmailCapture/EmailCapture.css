@@ -1,0 +1,50 @@
+
+
+.EmailInput {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 64px;
+  
+  background: var(--brand-lm-60-mid);
+  border: 3px solid var(--brand-lm-10-mid);
+  border-radius: 10px 0px 0px 10px;
+
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--lm-text);
+
+  padding-left: 16px;
+}
+
+.EmailInput::placeholder {
+  color: var(--brand-lm-60-drk);
+}
+
+.JoinButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 48px;
+  
+  height: 64px;
+  
+  background: var(--brand-lm-10-mid);
+  border-radius: 0px 10px 10px 0px;
+  
+  color: var(--lm-text-alt);
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.JoinButton:hover {
+  background-image: linear-gradient(rgb(0 0 0/20%) 0 0);
+}
+
+.JoinButton:active {
+  background-image: linear-gradient(rgb(255 255 255/20%) 0 0);
+}

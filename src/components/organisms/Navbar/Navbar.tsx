@@ -44,6 +44,11 @@ const Navbar = ({ ...props }: NavbarProps) => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
+  const focusInput = () => {
+    const emailCaptureInput = document.getElementById("emailCaptureInputHero");
+    if (emailCaptureInput) emailCaptureInput.focus();
+  };
+
   return (
     <>
       <nav
@@ -74,7 +79,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
             <NavHashLink to="cart" className={getLinkClass("cart")}>
               <CartIcon />
             </NavHashLink>
-            <HashLink to="/#newsletter" smooth>
+            <HashLink to="/#newsletter" smooth onClick={focusInput}>
               <div className="SignupButton">Sign Up</div>
             </HashLink>
           </div>
@@ -82,7 +87,10 @@ const Navbar = ({ ...props }: NavbarProps) => {
         <HashLink
           to="/#newsletter"
           smooth
-          onClick={() => setMenuOpen(false)}
+          onClick={() => {
+            setMenuOpen(false);
+            focusInput();
+          }}
           className="Mobile"
         >
           <div className={"SignupButton" + (menuOpen ? " LightSignup" : "")}>

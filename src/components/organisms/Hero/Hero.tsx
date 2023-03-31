@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import "./Hero.css";
 import blobs from "../../../assets/blobs.png";
-import { submitEmail } from "../../../functions/actions";
+import EmailCapture from "../../atoms/EmailCapture/EmailCapture";
+import { useLocation } from "react-router-dom";
 
 interface HeroProps {}
 
 const Hero = ({ ...props }: HeroProps) => {
-  const [email, setEmail] = useState("");
-
+  const location = useLocation();
+  useEffect(() => {
+    if (location.hash === "#newsletter") {
+      const emailCaptureInput = document.getElementById(
+        "emailCaptureInputHero"
+      );
+      if (emailCaptureInput) emailCaptureInput.focus();
+    }
+  }, [location]);
   return (
     <div className="Hero">
       <div
@@ -28,18 +36,7 @@ const Hero = ({ ...props }: HeroProps) => {
             new flair to your collection. Join our Newsletter today to be the
             first to know what's coming.
           </h3>
-          <div className="EmailCapture">
-            <input
-              className="EmailInput"
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <div className="HeroJoinButton" onClick={() => submitEmail(email)}>
-              Join
-            </div>
-          </div>
+          <EmailCapture />
         </div>
       </div>
     </div>
