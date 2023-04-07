@@ -12,11 +12,11 @@ import { ReactComponent as OpenIcon } from "../../../assets/hamburgerIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../assets/exitIcon.svg";
 
 import "./Navbar.css";
+import EmailCapture from "../../atoms/EmailCapture/EmailCapture";
 
 interface NavbarProps {}
 
 const Navbar = ({ ...props }: NavbarProps) => {
-  const [navbarBackground, setNavbarBackground] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const getHashClass = (label: string) =>
@@ -28,17 +28,6 @@ const Navbar = ({ ...props }: NavbarProps) => {
   };
   const isSticky = () =>
     location.pathname !== "/" || menuOpen ? " Sticky" : "";
-
-  useEffect(() => {
-    if (location.pathname !== "/") setNavbarBackground(true);
-    else {
-      setNavbarBackground(false);
-      document.addEventListener("scroll", () => {
-        if (window.scrollY > 24) setNavbarBackground(true);
-        else setNavbarBackground(false);
-      });
-    }
-  }, [location.pathname]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
@@ -53,10 +42,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
     <>
       <nav
         className={
-          "Navbar" +
-          isSticky() +
-          (menuOpen ? " MenuNavBackground" : "") +
-          (navbarBackground || menuOpen ? "" : " NoNavBackground")
+          "Navbar" + isSticky() + (menuOpen ? " MenuNavBackground" : "")
         }
       >
         <HashLink to="/#top" smooth onClick={() => setMenuOpen(false)}>
@@ -80,7 +66,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
               <CartIcon />
             </NavHashLink>
             <HashLink to="/#newsletter" smooth onClick={focusInput}>
-              <div className="SignupButton">Sign Up</div>
+              <div className="JoinButton">Join</div>
             </HashLink>
           </div>
         </div>
@@ -93,8 +79,8 @@ const Navbar = ({ ...props }: NavbarProps) => {
           }}
           className="Mobile"
         >
-          <div className={"SignupButton" + (menuOpen ? " LightSignup" : "")}>
-            Sign Up
+          <div className={"JoinButton" + (menuOpen ? " LightJoin" : "")}>
+            Join
           </div>
         </HashLink>
         <div
@@ -153,6 +139,10 @@ const Navbar = ({ ...props }: NavbarProps) => {
         >
           <CartIcon /> Cart
         </NavHashLink>
+        <div className="CaptureWrapper">
+          <h2>Join the Classified Wine Club for exclusive intel.</h2>
+          <EmailCapture />
+        </div>
       </div>
     </>
   );

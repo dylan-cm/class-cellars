@@ -5,6 +5,7 @@ import React from "react";
 import Footer from "../../organisms/Footer/Footer";
 import Hero from "../../organisms/Hero/Hero";
 import "./Home.css";
+import { Helmet } from "react-helmet-async";
 
 // type ListedProduct = {
 //   //TODO global product type
@@ -56,10 +57,13 @@ const Home = () => {
   // }, []);
 
   return (
-    <div className="Home">
-      <Hero />
-      <Footer />
-    </div>
+    <>
+      <Helmet></Helmet>
+      <div className="Home">
+        <Hero />
+        <Footer />
+      </div>
+    </>
   );
 };
 

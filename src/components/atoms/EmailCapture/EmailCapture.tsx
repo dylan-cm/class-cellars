@@ -31,7 +31,7 @@ const EmailCapture = ({ ...props }: EmailCaptureProps) => {
         onChange={(e) => setEmail(e.target.value)}
       />
       <div className="JoinButton" onClick={handleSubmit}>
-        Join
+        Sign Up
       </div>
     </div>
   );

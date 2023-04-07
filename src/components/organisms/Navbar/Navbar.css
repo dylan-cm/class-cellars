@@ -23,21 +23,18 @@
   --horizontal-padding: 48px;
   --transition-time: 0ms;
 
-  background: var(--brand-white);
-  transition: background --transition-time;
+  /* background: var(--brand-white); */
+  /* transition: background --transition-time; */
+  background: linear-gradient(180deg, var(--brand-white-rgba) 76.04%, var(--brand-white-rgba-trans) 100%);
 }
-.Navbar.scrolled {
+/* .Navbar.scrolled {
   background-color: var(--brand-white-rgba);
-}
+} */
 .Sticky {
   position: sticky;
 }
 .MenuNavBackground{
-  background: var(--brand-lm-30-mid);
-  /* position: fixed; */
-}
-.NoNavBackground{
-  background: transparent;
+  background: var(--brand-black);
 }
 
 a{
@@ -84,28 +81,40 @@ a{
   gap: 24px;
 }
 
-.SignupButton {
-  background-color: transparent;
-  border-radius: 10px;
-  box-shadow:0px 0px 0px 2px var(--brand-lm-10-mid) inset;
-
-  padding: 8px 24px;
-
-  color: var(--brand-lm-10-mid);
+.JoinButton {
+  box-sizing: border-box;
   
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 8px 24px;
+  
+  width: 77px;
+  height: 27px;
+  
+  background: var(--brand-black);
+  color: var(--lm-text-alt);
+  border-radius: 10px;
+  
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+
+  font-family: 'Lilita One';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
 
   transition: all var(--transition-time);
 }
 
-.SignupButton:hover {
+.JoinButton:hover {
   box-shadow:0px 0px 0px 4px var(--brand-lm-10-mid) inset;
 }
 
-.SignupButton:active {
+.JoinButton:active {
   box-shadow:0px 0px 0px 2px var(--brand-lm-10-mid) inset;
 }
 
@@ -156,70 +165,35 @@ a{
   }
 
 
-  .LightSignup {
-    color: var(--brand-white);
-    box-shadow:0px 0px 0px 2px var(--brand-white) inset;
+  .LightJoin {
+    color: var(--brand-black);
+    background-color: var(--brand-white);
   }
 
   .LightLogo{
     fill: var(--brand-white);
   }
 
-  .MenuOpenButton {
+  .MenuOpenButton path{
     width: 24px;
     aspect-ratio: 1;
 
-    fill: var(--brand-lm-10-mid);
+    fill: var(--brand-black);
   }
 
   .MenuCloseButton {
-    width: 24px;
+    width: 16px;
     aspect-ratio: 1;
 
     fill: var(--brand-white);
   }
 
-
-  @keyframes fadeIn {
-    0% {
-        display: none;
-        opacity: 0;
-    }
-
-    .001% {
-        display: flex;
-    }
-
-    100% {
-        display: flex;
-        opacity: 1;
-    }
-  }
-
-  @keyframes fadeOut {
-    0% {
-        display: flex;
-        opacity: 1;
-    }
-
-    .999% {
-        display: flex;
-    }
-
-    100% {
-        display: none;
-        opacity: 0;
-    }
-  }
-
   .Visible {
     display: flex;
-    /* animation: fadeIn var(--transition-time) ease-in forwards; */
   }
 
   .Invisible {
     display: none;
-    /* animation: fadeOut var(--transition-time) ease-in forwards; */
   }
 
   .NavButton path {
@@ -242,7 +216,7 @@ a{
 
     position: fixed;
 
-    background-color: var(--brand-lm-30-mid);
+    background-color: var(--brand-lm-30-drk);
   }
 
   .MenuLink {
@@ -254,11 +228,37 @@ a{
 
     padding: 24px 0px 24px 48px;
 
-    font-size: 28px;
+    font-family: "Averia Serif Libre", sans-serif;
+    font-size: 24px;
     color: var(--lm-text-alt);
   }
   
   .Pending, .Active, .NavButton:hover {
     color: var(--brand-lm-10-lit);
+  }
+
+  .Menu .CaptureWrapper {
+    position: absolute;
+    bottom: 120px;
+    height: 120px;
+    padding: 12px;
+    font-family: 'Fugaz One', serif;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+  }
+  .Menu .CaptureWrapper > h2{
+    margin: 0;
+
+    line-height: 26px;
+    font-size: 20px;
+    text-align: center;
+
+    color: var(--brand-white);
+
+    text-shadow: 0.5px 0.5px 0px var(--brand-lm-10-lit);
   }
 }
