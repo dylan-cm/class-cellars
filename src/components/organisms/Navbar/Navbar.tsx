@@ -83,67 +83,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
             Join
           </div>
         </HashLink>
-        <div
-          className={
-            "MenuOpenButton Mobile" + (!menuOpen ? " Visible" : " Invisible")
-          }
-          onClick={() => setMenuOpen(true)}
-        >
-          <OpenIcon />
-        </div>
-        <div
-          className={
-            "MenuCloseButton Mobile" + (menuOpen ? " Visible" : " Invisible")
-          }
-          onClick={() => setMenuOpen(false)}
-        >
-          <CloseIcon />
-        </div>
       </nav>
-      <div
-        className={"Menu Mobile"}
-        style={{ display: menuOpen ? "flex" : "none" }}
-      >
-        <NavHashLink
-          to="/#cellar"
-          className={"MenuLink " + getHashClass("cellar")}
-          onClick={() => setMenuOpen(false)}
-        >
-          <CellarIcon /> Cellar
-        </NavHashLink>
-        <NavHashLink
-          to="/#learn"
-          className={"MenuLink " + getHashClass("learn")}
-          onClick={() => setMenuOpen(false)}
-        >
-          <LearnIcon /> Learn
-        </NavHashLink>
-        <NavHashLink
-          to="/#about"
-          className={"MenuLink " + getHashClass("about")}
-          onClick={() => setMenuOpen(false)}
-        >
-          <AboutIcon /> About
-        </NavHashLink>
-        <NavHashLink
-          to="account"
-          className={"MenuLink " + getLinkClass("account")}
-          onClick={() => setMenuOpen(false)}
-        >
-          <AccountIcon /> Account
-        </NavHashLink>
-        <NavHashLink
-          to="cart"
-          className={"MenuLink " + getLinkClass("cart")}
-          onClick={() => setMenuOpen(false)}
-        >
-          <CartIcon /> Cart
-        </NavHashLink>
-        <div className="CaptureWrapper">
-          <h2>Join the Classified Wine Club for exclusive intel.</h2>
-          <EmailCapture />
-        </div>
-      </div>
     </>
   );
 };
