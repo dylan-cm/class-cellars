@@ -3,8 +3,6 @@ import { useLocation } from "react-router-dom";
 import { HashLink, NavHashLink } from "react-router-hash-link";
 
 import { ReactComponent as Logo } from "../../../assets/Logo - Light.svg";
-import { ReactComponent as AccountIcon } from "../../../assets/accountIcon.svg";
-import { ReactComponent as CartIcon } from "../../../assets/cartIcon.svg";
 
 import "./Navbar.css";
 
@@ -42,28 +40,9 @@ const Navbar = ({ ...props }: NavbarProps) => {
         <HashLink to="/#top" smooth onClick={() => setMenuOpen(false)}>
           <Logo className={"Logo" + (menuOpen ? " LightLogo" : "")} />
         </HashLink>
-        <div className="NavButtons">
-          <NavHashLink to="/#cellar" className={getHashClass("cellar")} smooth>
-            Cellar
-          </NavHashLink>
-          <NavHashLink to="/#learn" className={getHashClass("learn")} smooth>
-            Learn
-          </NavHashLink>
-          <NavHashLink to="/#about" className={getHashClass("about")} smooth>
-            About
-          </NavHashLink>
-          <div className="RightButtons">
-            <NavHashLink to="account" className={getLinkClass("account")}>
-              <AccountIcon />
-            </NavHashLink>
-            <NavHashLink to="cart" className={getLinkClass("cart")}>
-              <CartIcon />
-            </NavHashLink>
-            <HashLink to="/#newsletter" smooth onClick={focusInput}>
-              <div className="JoinButton">Join</div>
-            </HashLink>
-          </div>
-        </div>
+        <HashLink to="/#newsletter" smooth onClick={focusInput}>
+          <div className="JoinButton">Join</div>
+        </HashLink>
         <HashLink
           to="/#newsletter"
           smooth
