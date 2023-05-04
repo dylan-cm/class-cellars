@@ -8,6 +8,10 @@ interface FooterProps {}
 const Footer = ({ ...props }: FooterProps) => {
   return (
     <div className="Footer">
+      <p>
+        Are you a wine enthusiast with a discerning taste, a vision for an
+        exceptional cellar, and a thirst for new experiences?
+      </p>
       <h2>Receive insider intel on rare wines.</h2>
       <EmailCapture />
       <ul className="Sitemap">
