@@ -30,8 +30,8 @@ const About = ({ ...props }: AboutProps) => {
       </p>
       <div className="JoinWrapper">
         <h2>
-          Come explore our secret wine cellar and discover the world's most
-          exclusive wines.
+          Come explore our wines so exclusive they should be classified as
+          top-secret!
         </h2>
         <div className="JoinButton">Get Insider Access</div>
       </div>

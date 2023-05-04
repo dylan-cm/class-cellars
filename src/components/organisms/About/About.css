@@ -58,7 +58,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 20px 16px;
+  padding: 16px;
 
   background: var(--brand-lm-10-mid);
   color: var(--lm-text-alt);
@@ -89,6 +89,5 @@
   font-size: 20px;
   text-align: center;
   text-shadow: 2px 2px var(--brand-lm-10-mid);
-  margin: 0px;
-  margin-bottom: 12px;
+  margin: 24px 0px 12px 0px;
 }
