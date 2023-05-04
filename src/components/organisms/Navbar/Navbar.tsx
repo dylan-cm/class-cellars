@@ -5,14 +5,8 @@ import { HashLink, NavHashLink } from "react-router-hash-link";
 import { ReactComponent as Logo } from "../../../assets/Logo - Light.svg";
 import { ReactComponent as AccountIcon } from "../../../assets/accountIcon.svg";
 import { ReactComponent as CartIcon } from "../../../assets/cartIcon.svg";
-import { ReactComponent as AboutIcon } from "../../../assets/aboutIcon.svg";
-import { ReactComponent as LearnIcon } from "../../../assets/learnIcon.svg";
-import { ReactComponent as CellarIcon } from "../../../assets/cellarIcon.svg";
-import { ReactComponent as OpenIcon } from "../../../assets/hamburgerIcon.svg";
-import { ReactComponent as CloseIcon } from "../../../assets/exitIcon.svg";
 
 import "./Navbar.css";
-import EmailCapture from "../../atoms/EmailCapture/EmailCapture";
 
 interface NavbarProps {}
 
