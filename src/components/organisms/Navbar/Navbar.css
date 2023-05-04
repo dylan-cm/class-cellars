@@ -3,20 +3,20 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  
+
   width: 100%;
   height: 72px;
   padding: 0px var(--horizontal-padding);
   box-sizing: border-box;
   background-color: var(--brand-white-rgba-trans);
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   right: 0;
-  
+
   z-index: 100;
   user-select: none;
-  
+
   font-size: 18px;
   font-weight: 500;
 
@@ -25,7 +25,11 @@
 
   /* background: var(--brand-white); */
   /* transition: background --transition-time; */
-  background: linear-gradient(180deg, var(--brand-white-rgba) 76.04%, var(--brand-white-rgba-trans) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--brand-white-rgba) 76.04%,
+    var(--brand-white-rgba-trans) 100%
+  );
 }
 /* .Navbar.scrolled {
   background-color: var(--brand-white-rgba);
@@ -33,29 +37,29 @@
 .Sticky {
   position: sticky;
 }
-.MenuNavBackground{
+.MenuNavBackground {
   background: var(--brand-black);
 }
 
-a{
+a {
   color: var(--brand-black);
   text-decoration: none;
   font-weight: 500;
   font-size: 18px;
 }
 
-@media screen and (max-width:1280px){
-  .Navbar{
+@media screen and (max-width: 1280px) {
+  .Navbar {
     --horizontal-padding: 24px;
   }
 }
 
-.Logo{
+.Logo {
   fill: var(--brand-black);
   transition: fill var(--transition-time);
 }
 
-.NavButtons{
+.NavButtons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -68,40 +72,39 @@ a{
   z-index: 101;
 }
 
-@media screen and (max-width:960px){
-  .NavButtons{
+@media screen and (max-width: 960px) {
+  .NavButtons {
     width: 60%;
   }
 }
 
-.RightButtons{
+.RightButtons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 24px;
 }
 
-.JoinButton {
+.Navbar .JoinButton {
   box-sizing: border-box;
-  
+
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 8px 24px;
-  
+  padding: 4px 24px;
+
   width: 77px;
-  height: 27px;
-  
+
   background: var(--brand-black);
   color: var(--lm-text-alt);
   border-radius: 10px;
-  
+
   flex: none;
   order: 2;
   flex-grow: 0;
 
-  font-family: 'Lilita One';
+  font-family: "Lilita One";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -111,18 +114,18 @@ a{
 }
 
 .JoinButton:hover {
-  box-shadow:0px 0px 0px 4px var(--brand-lm-10-mid) inset;
+  box-shadow: 0px 0px 0px 4px var(--brand-lm-10-mid) inset;
 }
 
 .JoinButton:active {
-  box-shadow:0px 0px 0px 2px var(--brand-lm-10-mid) inset;
+  box-shadow: 0px 0px 0px 2px var(--brand-lm-10-mid) inset;
 }
 
-.NavButton{
+.NavButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   cursor: pointer;
 }
 
@@ -130,16 +133,20 @@ a{
   fill: var(--brand-black);
 }
 
-.Pending path, .Active path, .NavButton:hover path {
+.Pending path,
+.Active path,
+.NavButton:hover path {
   fill: var(--brand-lm-10-mid);
 }
 
-.Pending, .Active, .NavButton:hover {
+.Pending,
+.Active,
+.NavButton:hover {
   color: var(--brand-lm-10-mid);
 }
 
-@media screen and (max-width:800px) {
-  .Logo{
+@media screen and (max-width: 800px) {
+  .Logo {
     width: 75%;
   }
 }
@@ -149,8 +156,8 @@ a{
 }
 
 @media screen and (max-width: 720px) {
-  .Navbar{
-    --horizontal-padding:16px
+  .Navbar {
+    --horizontal-padding: 16px;
   }
   .NavButtons {
     display: none;
@@ -159,22 +166,21 @@ a{
   .Mobile {
     display: block;
   }
-  
+
   .Logo {
     width: 156px;
   }
-
 
   .LightJoin {
     color: var(--brand-black);
     background-color: var(--brand-white);
   }
 
-  .LightLogo{
+  .LightLogo {
     fill: var(--brand-white);
   }
 
-  .MenuOpenButton path{
+  .MenuOpenButton path {
     width: 24px;
     aspect-ratio: 1;
 
@@ -199,10 +205,12 @@ a{
   .NavButton path {
     fill: var(--lm-text-alt);
   }
-  .Pending path, .Active path, .NavButton:hover path {
+  .Pending path,
+  .Active path,
+  .NavButton:hover path {
     fill: var(--brand-lm-10-lit);
   }
-  
+
   .Menu {
     width: 100vw;
     height: 100%;
@@ -211,7 +219,7 @@ a{
     justify-content: flex-start;
     align-items: stretch;
     padding-top: 48px;
-    
+
     z-index: 99;
 
     position: fixed;
@@ -232,8 +240,10 @@ a{
     font-size: 24px;
     color: var(--lm-text-alt);
   }
-  
-  .Pending, .Active, .NavButton:hover {
+
+  .Pending,
+  .Active,
+  .NavButton:hover {
     color: var(--brand-lm-10-lit);
   }
 
@@ -242,7 +252,7 @@ a{
     bottom: 120px;
     height: 120px;
     padding: 12px;
-    font-family: 'Fugaz One', serif;
+    font-family: "Fugaz One", serif;
 
     display: flex;
     flex-direction: column;
@@ -250,7 +260,7 @@ a{
     align-items: center;
     gap: 12px;
   }
-  .Menu .CaptureWrapper > h2{
+  .Menu .CaptureWrapper > h2 {
     margin: 0;
 
     line-height: 26px;

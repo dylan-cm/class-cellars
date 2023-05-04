@@ -1,6 +1,47 @@
 .Footer {
-  height: 500px;
+  min-height: 560px;
   width: 100%;
   background-color: black;
+  color: var(--brand-lm-10-lit);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  text-align: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.Footer h2 {
+  font-family: "Shrikhand", cursive;
+  line-height: 26px;
+  font-size: 20px;
+  text-align: center;
   color: white;
+}
+
+.Footer ul {
+  font-family: "Averia Serif Libre", sans-serif;
+  margin: 64px 0px 24px 0px;
+  padding: 0px;
+}
+.Footer li {
+  list-style-type: none;
+  cursor: pointer;
+  margin: 12px;
+}
+
+.Footer a {
+  color: var(--brand-lm-10-lit);
+  font-weight: 100;
+  text-decoration: underline;
+}
+.Footer span {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.Footer .Little {
+  font-size: 10px;
 }

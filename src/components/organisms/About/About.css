@@ -1,0 +1,94 @@
+.About {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--brand-lm-30-lit);
+  color: white;
+  padding: 48px 12px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Fun {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  width: 360px;
+
+  margin-bottom: 84px;
+}
+
+.Fun > img {
+}
+
+.Title {
+  font-family: "Shrikhand", cursive;
+  font-size: 60px;
+  line-height: 58px;
+  letter-spacing: 1px;
+
+  margin: 0px;
+
+  position: relative;
+  top: 252px;
+  left: 76px;
+}
+
+.Refined {
+  color: var(--brand-lm-10-drk);
+  mix-blend-mode: multiply;
+}
+
+.About .JoinWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.About .JoinButton {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 16px;
+
+  background: var(--brand-lm-10-mid);
+  color: var(--lm-text-alt);
+  border-radius: 10px;
+
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+
+  font-family: "Lilita One";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+
+  transition: all var(--transition-time);
+}
+
+.PlaceholderImg {
+  width: 280px;
+  height: 360px;
+  background-color: grey;
+}
+
+.About h2 {
+  font-family: "Shrikhand", cursive;
+  line-height: 26px;
+  font-size: 20px;
+  text-align: center;
+  text-shadow: 2px 2px var(--brand-lm-10-mid);
+  margin: 0px;
+  margin-bottom: 12px;
+}
