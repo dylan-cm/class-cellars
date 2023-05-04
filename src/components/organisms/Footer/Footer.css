@@ -3,13 +3,21 @@
   width: 100%;
   background-color: black;
   color: var(--brand-lm-10-lit);
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.FooterWrap {
+  max-width: 600px;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 
-  text-align: center;
   padding: 24px;
   box-sizing: border-box;
 }
@@ -48,4 +56,11 @@
 
 .Footer p {
   color: white;
+}
+
+@media screen and (min-width: 600px) {
+  ul {
+    display: flex;
+    flex-direction: row;
+  }
 }

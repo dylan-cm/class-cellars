@@ -3,7 +3,7 @@
   width: 100%;
   background-color: var(--brand-lm-30-lit);
   color: white;
-  padding: 48px 12px;
+  padding: 96px 12px;
   box-sizing: border-box;
 
   display: flex;
@@ -21,6 +21,7 @@
   width: 360px;
 
   margin-bottom: 84px;
+  margin-top: 48px;
 }
 
 .Fun > img {
@@ -90,4 +91,30 @@
   text-align: center;
   text-shadow: 2px 2px var(--brand-lm-10-mid);
   margin: 24px 0px 12px 0px;
+}
+
+@media screen and (min-width: 600px) {
+  .About {
+    min-height: 50vh;
+    padding: 96px 12px;
+  }
+  .TopRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .Blurb {
+    max-width: 264px;
+    margin: 0px;
+  }
+
+  .Fun {
+    margin-top: 0px;
+  }
+
+  .JoinWrapper {
+    max-width: 480px;
+  }
 }
