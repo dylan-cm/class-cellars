@@ -34,10 +34,10 @@ const Hero = ({ ...props }: HeroProps) => {
             take an oath of secrecy.{" "}
           </h1>
           <h3>
-            Classified Cellars offers an exquisite selection of rare wines that
-            will complement your taste, expand your palate, and add a touch of
-            exclusivity to your collection.
-            <h3 className="Bold">Hand-selected by our covert sommeliers.</h3>
+            {
+              "Classified Cellars offers an exquisite selection of rare wines that will complement your taste, expand your palate, and add a touch of exclusivity to your collection. "
+            }
+            <strong>Hand-selected by our covert sommeliers.</strong>
           </h3>
           <div className="CaptureWrapper">
             <h2>Gain access to our confidential wine reports.</h2>
