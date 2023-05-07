@@ -46,3 +46,11 @@ code {
 
   background-color: var(--brand-lm-60-mid);
 }
+
+.LoadingScreen {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

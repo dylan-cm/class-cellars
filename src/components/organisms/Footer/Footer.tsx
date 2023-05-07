@@ -2,18 +2,20 @@ import React from "react";
 import "./Footer.css";
 import EmailCapture from "../../atoms/EmailCapture/EmailCapture";
 import { HashLink } from "react-router-hash-link";
+import Wave from "../../../assets/footer_layered_wave.svg";
+import Shh from "../../../assets/shh.jpg";
 
 interface FooterProps {}
 
 const Footer = ({ ...props }: FooterProps) => {
   return (
     <div className="Footer">
+      <img className="Wave" src={Wave} alt="Footer" />
+      <div className="FooterBackgroundColor" />
+      <div className="ShhGradient" />
+      <img className="Shh" src={Shh} alt="Secret" />
       <div className="FooterWrap">
-        <p>
-          Are you a wine enthusiast with a discerning taste, a vision for an
-          exceptional cellar, and a thirst for new experiences?
-        </p>
-        <h2>Receive insider intel on rare wines.</h2>
+        <h2>Join the Classified Cellars Community</h2>
         <EmailCapture />
         <ul className="Sitemap">
           <li>

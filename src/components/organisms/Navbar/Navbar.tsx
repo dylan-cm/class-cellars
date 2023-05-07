@@ -10,6 +10,17 @@ interface NavbarProps {}
 
 const Navbar = ({ ...props }: NavbarProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      setScrollPosition(window.pageYOffset);
+    };
+    window.addEventListener("scroll", updatePosition);
+    updatePosition();
+    return () => window.removeEventListener("scroll", updatePosition);
+  }, []);
+
   const location = useLocation();
   const getHashClass = (label: string) =>
     "NavButton " + (location.hash.slice(1) === label ? "Active" : "");
@@ -20,7 +31,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
   };
   const isSticky = () =>
     location.pathname !== "/" || menuOpen ? " Sticky" : "";
-
+  const scrolled = scrollPosition > 76 ? " Scrolled" : "";
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
@@ -37,24 +48,12 @@ const Navbar = ({ ...props }: NavbarProps) => {
           "Navbar" + isSticky() + (menuOpen ? " MenuNavBackground" : "")
         }
       >
+        <div className={"NavbarBackground" + scrolled} />
         <HashLink to="/#top" smooth onClick={() => setMenuOpen(false)}>
           <Logo className={"Logo" + (menuOpen ? " LightLogo" : "")} />
         </HashLink>
         <HashLink to="/#newsletter" smooth onClick={focusInput}>
           <div className="JoinButton">Join</div>
-        </HashLink>
-        <HashLink
-          to="/#newsletter"
-          smooth
-          onClick={() => {
-            setMenuOpen(false);
-            focusInput();
-          }}
-          className="Mobile"
-        >
-          <div className={"JoinButton" + (menuOpen ? " LightJoin" : "")}>
-            Join
-          </div>
         </HashLink>
       </nav>
     </>

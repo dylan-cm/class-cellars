@@ -23,17 +23,29 @@
   --horizontal-padding: 48px;
   --transition-time: 0ms;
 
-  /* background: var(--brand-white); */
-  /* transition: background --transition-time; */
   background: linear-gradient(
     180deg,
     var(--brand-white-rgba) 76.04%,
     var(--brand-white-rgba-trans) 100%
   );
 }
-/* .Navbar.scrolled {
-  background-color: var(--brand-white-rgba);
-} */
+
+.NavbarBackground {
+  background: var(--brand-white);
+  transition: opacity 200ms ease-in;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 72px;
+  opacity: 0;
+  z-index: -1;
+  opacity: 1;
+}
+.NavbarBackground.Scrolled {
+  opacity: 1;
+}
+
 .Sticky {
   position: sticky;
 }
@@ -270,5 +282,9 @@ a {
     color: var(--brand-white);
 
     text-shadow: 0.5px 0.5px 0px var(--brand-lm-10-lit);
+  }
+
+  .NavbarBackground {
+    opacity: 0;
   }
 }

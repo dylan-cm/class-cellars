@@ -1,15 +1,33 @@
 .About {
   min-height: 100vh;
   width: 100%;
-  background-color: var(--brand-lm-30-lit);
   color: white;
-  padding: 96px 12px;
   box-sizing: border-box;
+  margin-top: -48px;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+
+  position: relative;
+  padding-top: 75px;
+}
+
+.AboutWrap {
+  padding: 12px 12px 48px 12px;
+  z-index: 3;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.AboutBackgroundColor {
+  height: 100%;
+  width: 100%;
+  background-color: var(--brand-lm-30-lit);
+  position: absolute;
+  top: 75px;
+  z-index: 0;
 }
 
 .Fun {
@@ -21,10 +39,6 @@
   width: 360px;
 
   margin-bottom: 84px;
-  margin-top: 48px;
-}
-
-.Fun > img {
 }
 
 .Title {
@@ -78,10 +92,11 @@
   transition: all var(--transition-time);
 }
 
-.PlaceholderImg {
+.AboutImage {
   width: 280px;
   height: 360px;
-  background-color: grey;
+  background-position: center;
+  background-size: cover;
 }
 
 .About h2 {
@@ -93,16 +108,64 @@
   margin: 24px 0px 12px 0px;
 }
 
+.Wave {
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  z-index: 0;
+}
+
+img.Barrels {
+  position: absolute;
+  top: 80px;
+  bottom: 0px;
+  right: 0px;
+  mix-blend-mode: multiply;
+  height: 100%;
+  opacity: 15%;
+  width: 100%;
+  z-index: 1;
+  object-fit: cover;
+}
+
+div.BarrelGradient {
+  height: 80px;
+  width: 100%;
+  background: linear-gradient(var(--brand-lm-30-lit), transparent);
+  z-index: 2;
+  position: absolute;
+  top: 80px;
+}
+
 @media screen and (min-width: 600px) {
+  .Wave {
+    display: none;
+  }
   .About {
     min-height: 50vh;
-    padding: 96px 12px;
+    padding: 0px;
+    margin-top: 0px;
+  }
+  .AboutWrap {
+    padding-top: 96px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  img.Barrels,
+  .AboutBackgroundColor,
+  div.BarrelGradient {
+    top: 0px;
   }
   .TopRow {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+
+    width: 100%;
   }
 
   .Blurb {

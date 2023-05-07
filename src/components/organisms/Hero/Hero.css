@@ -1,5 +1,4 @@
 .Hero {
-  background: var(--brand-lm-60-lit);
   width: 100%;
   height: 90vh;
 
@@ -52,9 +51,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  box-sizing: border-box;
+}
 
-  background-position: center;
-  background-size: cover;
+.Blobs {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  padding-top: 72px;
+  box-sizing: border-box;
+}
+
+.Blobs svg {
+  width: 100%;
+  height: 100%;
 }
 
 @media screen and (max-width: 960px) {
@@ -98,7 +113,11 @@
 }
 
 @media screen and (max-width: 720px) {
+  .Blobs {
+    display: none;
+  }
   .Hero {
+    background: var(--brand-lm-60-lit);
     flex-direction: column;
     align-items: center;
 
@@ -126,7 +145,7 @@
   .HeroRight {
     width: fit-content;
     height: fit-content;
-    margin: -96px 12px -36px 12px;
+    margin: -96px 12px 0px 12px;
 
     background: var(--brand-lm-60-mid) !important;
     border-radius: 10px;

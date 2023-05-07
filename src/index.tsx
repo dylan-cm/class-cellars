@@ -16,7 +16,17 @@ const ComponentTesting = lazy(
 );
 
 const suspenseful = (element: JSX.Element) => {
-  return <Suspense fallback={<h1>Loading...</h1>}>{element}</Suspense>; //TODO: spinner loading page
+  return (
+    <Suspense
+      fallback={
+        <div className="LoadingScreen">
+          <h1>Loading...</h1>
+        </div>
+      }
+    >
+      {element}
+    </Suspense>
+  ); //TODO: spinner loading page
 };
 
 const router = createBrowserRouter([

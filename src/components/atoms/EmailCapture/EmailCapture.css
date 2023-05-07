@@ -1,10 +1,15 @@
-.EmailInput {
+.EmailCapture {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
   box-sizing: border-box;
-
+}
+.EmailInput {
   width: 100%;
   height: 48px;
 
-  background: var(--brand-lm-60-mid);
+  background: white;
   border: 3px solid var(--brand-lm-10-mid);
   border-radius: 10px 0px 0px 10px;
 
@@ -14,6 +19,7 @@
   color: var(--lm-text);
 
   padding-left: 16px;
+  box-sizing: border-box;
 }
 
 .EmailInput::placeholder {
@@ -25,7 +31,7 @@
   justify-content: center;
   align-items: center;
   height: 48px;
-  padding: 0px 24px;
+  width: 96px;
 
   background: var(--brand-lm-10-mid);
   border-radius: 0px 10px 10px 0px;
