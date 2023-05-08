@@ -1,4 +1,5 @@
-<svg preserveAspectRatio="xMinYMin meet" viewBox="0 0 450 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="1018" height="64" viewBox="0 0 450 88" fill="none" preserveAspectRatio="none"
+  xmlns="http://www.w3.org/2000/svg">
   <path
     d="M0 27L18.8 23.3C37.7 19.7 75.3 12.3 112.8 7.70001C150.3 3.00001 187.7 1.00001 225.2 0.700012C262.7 0.300012 300.3 1.69999 337.8 1.79999C375.3 1.99999 412.7 1 431.3 0.5L450 0V88H431.3C412.7 88 375.3 88 337.8 88C300.3 88 262.7 88 225.2 88C187.7 88 150.3 88 112.8 88C75.3 88 37.7 88 18.8 88H0V27Z"
     fill="#E5586C" />

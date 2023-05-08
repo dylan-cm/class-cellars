@@ -14,13 +14,15 @@ const About = ({ ...props }: AboutProps) => {
     const emailCaptureInput = document.getElementById("emailCaptureInputHero");
     if (emailCaptureInput) emailCaptureInput.focus();
   };
+
   return (
     <div className="About">
-      <div className="BarrelGradient" />
-      <img className="Barrels" src={Barrels} alt="barrels" />
       <img className="Wave" src={Wave} alt="About" />
-      <div className="AboutBackgroundColor" />
+
       <div className="AboutWrap">
+        <div className="BarrelGradient" />
+        <img className="Barrels" src={Barrels} alt="barrels" />
+        <div className="AboutBackgroundColor" />
         <div className="TopRow">
           <div className="Fun">
             <div
@@ -46,12 +48,6 @@ const About = ({ ...props }: AboutProps) => {
             Our commitment to knowledge, experience, and ethics ensures full
             disclosure of provenance.
           </p>
-        </div>
-        <div className="JoinWrapper">
-          <h2>We invite you to come explore our wines.</h2>
-          <HashLink to="/#newsletter" smooth onClick={focusInput}>
-            <div className="JoinButton">Get Insider Access</div>
-          </HashLink>
         </div>
       </div>
     </div>
