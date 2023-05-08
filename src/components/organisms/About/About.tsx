@@ -10,11 +10,6 @@ import { HashLink } from "react-router-hash-link";
 interface AboutProps {}
 
 const About = ({ ...props }: AboutProps) => {
-  const focusInput = () => {
-    const emailCaptureInput = document.getElementById("emailCaptureInputHero");
-    if (emailCaptureInput) emailCaptureInput.focus();
-  };
-
   return (
     <div className="About">
       <img className="Wave" src={Wave} alt="About" />

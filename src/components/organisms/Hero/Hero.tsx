@@ -5,10 +5,16 @@ import { ReactComponent as Blobs } from "../../../assets/wine_stains.svg";
 import EmailCapture from "../../atoms/EmailCapture/EmailCapture";
 import { useLocation } from "react-router-dom";
 import HeroImage from "../../../assets/hero_image.jpg";
+import { HashLink } from "react-router-hash-link";
 
 interface HeroProps {}
 
 const Hero = ({ ...props }: HeroProps) => {
+  const focusInput = () => {
+    const emailCaptureInput = document.getElementById("emailCaptureInputHero");
+    if (emailCaptureInput) emailCaptureInput.focus();
+  };
+
   const location = useLocation();
   useEffect(() => {
     if (location.hash === "#newsletter") {
@@ -48,10 +54,12 @@ const Hero = ({ ...props }: HeroProps) => {
           </h3>
           <div className="CaptureWrapper">
             <h2>
-              We invite you to sign up for our mailing list so you will receive
-              classified offers as soon as they are available.
+              You're invited to sign up for our mailing list and get our
+              classified offers as soon as they are available!
             </h2>
-            <EmailCapture />
+            <HashLink to="/#newsletter" smooth onClick={focusInput}>
+              <div className="JoinButton">Get Insider Access</div>
+            </HashLink>
           </div>
         </div>
       </div>

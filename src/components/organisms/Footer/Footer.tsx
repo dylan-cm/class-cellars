@@ -15,8 +15,8 @@ const Footer = ({ ...props }: FooterProps) => {
       <div className="SignUpCTA">
         <img className="CTAWave" src={TopWave} alt="Email Signup" />
         <div className="CTAForm">
-          <h2>We invite you to come explore our fine wines.</h2>
-          <h3>Join the Classified Cellars Community today!</h3>
+          <h2>Come explore our fine wines!</h2>
+          <h3>Join the Classified Cellars Community today.</h3>
           <EmailCapture />
           <h6>
             *You can unsubscribe at any time and we will never sell your data.
