@@ -126,11 +126,11 @@ a {
 }
 
 .JoinButton:hover {
-  box-shadow: 0px 0px 0px 4px var(--brand-lm-10-mid) inset;
+  background: var(--brand-lm-60-drk);
 }
 
 .JoinButton:active {
-  box-shadow: 0px 0px 0px 2px var(--brand-lm-10-mid) inset;
+  background: var(--brand-lm-10-mid);
 }
 
 .NavButton {
