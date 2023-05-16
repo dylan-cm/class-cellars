@@ -2,15 +2,24 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   min-height: calc(100vh - 76px);
-  height: 100%;
-  box-sizing: border-box;
 
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   background: white;
   overflow: hidden;
+}
+
+.ProductsPageWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .TitleArea {
@@ -99,10 +108,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minMax(160px, 1fr));
   grid-template-rows: repeat(auto, 1fr);
+  gap: 25px 10px;
   justify-items: center;
-  align-items: center;
   justify-content: center;
-  padding: 16px 16px 48px 16px;
+  padding: 16px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -112,17 +121,19 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
 
   width: 100%;
-  height: 320px;
-  margin-bottom: 25px;
-  padding: 0 10px;
+  min-height: 320px;
+  height: 100%;
+  padding: 10px;
   box-sizing: border-box;
 
   background: white;
-  border-radius: 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
 
   user-select: none;
   cursor: pointer;
@@ -140,7 +151,15 @@
   margin-left: 8px;
 }
 
-.ProductCard > img {
+.CardTop {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.ProductCard .CardTop img {
   align-self: center;
   width: 112px;
   height: auto;
@@ -152,7 +171,7 @@
   box-sizing: border-box;
 }
 
-.ProductCard .CardTop {
+.ProductCard .CardTitle {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -164,17 +183,17 @@
   width: 100%;
 }
 
-.ProductCard .CardTop h4 {
-  font-family: serif;
+.ProductCard .CardTitle h4 {
   font-size: 16px;
   margin: 0px;
   padding-right: 8px;
   box-sizing: border-box;
 }
 
-.ProductCard .CardTop span {
+.ProductCard .CardTitle span {
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
+  font-family: "Roboto";
 }
 
 .ProductCard .Categories {
@@ -182,6 +201,7 @@
   font-size: 14px;
   margin: 4px 0px;
   box-sizing: border-box;
+  justify-self: flex-end;
 }
 
 .ProductCard .CartAdd {
@@ -199,4 +219,39 @@
   right: 8px;
   top: 0px;
   z-index: 2;
+}
+
+.Pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.Pagination .PageButton {
+  background: white;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px inset rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  user-select: none;
+  margin: 24px 12px;
+  margin-bottom: 64px;
+}
+
+.Pagination .PageButton:hover {
+  background: var(--brand-lm-10-mid);
+  color: white;
+}
+
+.Pagination .PageButton:active {
+  background: var(--brand-lm-10-lit);
+  color: white;
+}
+
+.Pagination .Invisible {
+  cursor: inherit;
+  opacity: 0;
 }

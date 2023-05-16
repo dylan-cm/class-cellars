@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,400;0,700;1,400&family=Lilita+One&family=Shrikhand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,400;0,700;1,400&family=Lilita+One&family=Roboto:wght@400;700&family=Shrikhand&display=swap");
 
 body {
   margin: 0;
@@ -53,4 +53,8 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+* {
+  box-sizing: border-box;
 }

@@ -7,9 +7,10 @@ declare global {
     price: string;
     img: string;
     id: string;
+    type: string;
   }
 
-  interface ResponseBody {
+  interface ProductsResponseBody {
     data: {
       products: {
         nodes: {
@@ -26,12 +27,19 @@ declare global {
                   url: string;
                 };
                 availableForSale: boolean;
+                productType: string;
               };
               quantityAvailable: number;
             }[];
           };
           title: string;
         }[];
+        pageInfo: {
+          startCursor: string;
+          hasPreviousPage: boolean;
+          hasNextPage: boolean;
+          endCursor: string;
+        };
       };
     };
     errors?: any[];

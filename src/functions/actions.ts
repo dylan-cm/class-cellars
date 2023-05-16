@@ -9,15 +9,29 @@ export const submitEmail = async (email: string) => {
 interface fetchProductsOptions {
   amount: number;
   descriptionTruncate: number;
+  cursor?: string;
+  back?: boolean;
+}
+
+interface fetchProductsResponse {
+  fetchedProducts: Product[];
+  newStartCursor: string;
+  newEndCursor: string;
+  newHasNextPage: boolean;
+  newHasPreviousPage: boolean;
 }
 
 export const fetchProducts = async ({
   amount,
   descriptionTruncate,
-}: fetchProductsOptions): Promise<Product[]> => {
+  cursor,
+  back,
+}: fetchProductsOptions): Promise<fetchProductsResponse> => {
   const query = `
     query {
-      products(first: ${amount}) {
+      products(${back ? "last" : "first"}: ${amount}${
+    cursor ? `, ${back ? "before" : "after"}: "${cursor}"` : ""
+  }) {
         nodes {
           variants(first: 1) {
             nodes {
@@ -32,11 +46,19 @@ export const fetchProducts = async ({
                   url
                 }
                 availableForSale
+                productType
               }
               quantityAvailable
             }
           }
           title
+        }
+
+        pageInfo {
+          startCursor
+          hasPreviousPage
+          hasNextPage
+          endCursor
         }
       }
     }
@@ -57,25 +79,65 @@ export const fetchProducts = async ({
     }
   );
 
-  const responseBody: ResponseBody = (await response.json()) as ResponseBody;
+  const responseBody: ProductsResponseBody =
+    (await response.json()) as ProductsResponseBody;
 
   if (responseBody.errors) {
     console.error("Failed to fetch products:", responseBody.errors);
     throw new Error("Failed to fetch products");
   }
-
-  const products: Product[] = responseBody.data.products.nodes.map(
+  //todo: add default pictures based off of type of wine (red, white, etc)
+  const fetchedProducts: Product[] = responseBody.data.products.nodes.map(
     (node: any) => {
       const variant = node.variants.nodes[0];
       return {
         title: node.title,
         description: variant.product.description,
         price: variant.price.amount,
-        img: variant.product.featuredImage.url,
+        img:
+          variant.product.featuredImage?.url || "https://picsum.photos/200/240",
         id: variant.id,
+        type: variant.product.productType,
       };
     }
   );
 
-  return products;
+  const newStartCursor = responseBody.data.products.pageInfo.startCursor;
+  const newEndCursor = responseBody.data.products.pageInfo.endCursor;
+  const newHasNextPage = responseBody.data.products.pageInfo.hasNextPage;
+  const newHasPreviousPage =
+    responseBody.data.products.pageInfo.hasPreviousPage;
+
+  return {
+    fetchedProducts,
+    newStartCursor,
+    newEndCursor,
+    newHasNextPage,
+    newHasPreviousPage,
+  };
+};
+
+export const addCustomer = async (email: string) => {
+  const functionUrl =
+    "https://us-central1-casadelsol-6dae6.cloudfunctions.net/addCustomer";
+
+  try {
+    const response = await fetch(functionUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    console.log("Customer created successfully:", data);
+  } catch (error) {
+    console.error("Failed to create customer:", error);
+  }
 };
