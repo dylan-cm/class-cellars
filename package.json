@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@shopify/shopify-api": "^7.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -38,7 +39,8 @@
     "eject": "react-scripts eject",
     "deploy": "react-scripts build && firebase hosting:channel:deploy preview-site-internal",
     "deploy-client": "action-confirmation 'deploy-client' && react-scripts build && firebase hosting:channel:deploy preview-site-client",
-    "deploy-live": "action-confirmation 'deploy-live' && react-scripts build && firebase deploy --only hosting"
+    "deploy-live": "action-confirmation 'deploy-live' && react-scripts build && firebase deploy --only hosting",
+    "deploy-functions": "firebase deploy --only functions"
   },
   "eslintConfig": {
     "extends": [

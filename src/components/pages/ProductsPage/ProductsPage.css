@@ -1,0 +1,202 @@
+.ProductsPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  min-height: calc(100vh - 76px);
+  height: 100%;
+  box-sizing: border-box;
+
+  font-family: sans-serif;
+  background: white;
+  overflow: hidden;
+}
+
+.TitleArea {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.TitleArea > h1 {
+  margin: 0px;
+}
+
+.TitleArea > h6 {
+  color: gray;
+  font-size: 14px;
+  font-weight: 300;
+  margin: 8px 0px 16px 0px;
+}
+
+.TitleArea > .Line {
+  width: 48px;
+  height: 1px;
+  background: black;
+  box-sizing: border-box;
+}
+
+.Chips {
+  position: sticky;
+  width: 100vw;
+  padding: 10px 16px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.Chips::-webkit-scrollbar {
+  display: none;
+}
+
+.Chip {
+  font-size: 14px;
+  background: white;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px inset rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  user-select: none;
+  cursor: pointer;
+}
+
+.ActiveChip {
+  background: var(--brand-lm-10-lit);
+  color: white;
+}
+
+.Sort {
+  padding-left: 16px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.Sort > select {
+  font-size: 14px;
+  background: white;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px inset rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  user-select: none;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.ProductsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minMax(160px, 1fr));
+  grid-template-rows: repeat(auto, 1fr);
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 16px 48px 16px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.ProductCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  width: 100%;
+  height: 320px;
+  margin-bottom: 25px;
+  padding: 0 10px;
+  box-sizing: border-box;
+
+  background: white;
+  border-radius: 10px;
+
+  user-select: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.ProductCard > p {
+  margin: 0px;
+  font-size: 14px;
+}
+
+.ProductCard > p > span {
+  font-size: 14px;
+  text-decoration: underline;
+  margin-left: 8px;
+}
+
+.ProductCard > img {
+  align-self: center;
+  width: 112px;
+  height: auto;
+  aspect-ratio: calc(4 / 5);
+  object-fit: contain;
+  border-radius: 10px;
+  user-select: none;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.ProductCard .CardTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 12px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  width: 100%;
+}
+
+.ProductCard .CardTop h4 {
+  font-family: serif;
+  font-size: 16px;
+  margin: 0px;
+  padding-right: 8px;
+  box-sizing: border-box;
+}
+
+.ProductCard .CardTop span {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.ProductCard .Categories {
+  color: gray;
+  font-size: 14px;
+  margin: 4px 0px;
+  box-sizing: border-box;
+}
+
+.ProductCard .CartAdd {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  background-color: var(--brand-lm-10-mid);
+  color: var(--brand-lm-10-mid);
+  font-size: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 100%;
+  position: absolute;
+  right: 8px;
+  top: 0px;
+  z-index: 2;
+}

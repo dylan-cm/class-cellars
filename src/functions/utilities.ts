@@ -19,3 +19,6 @@ export const scrollWithOffset = (el: any) => {
   const yOffset = -360;
   window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
 };
+
+export const truncate = (text: string, length: number) =>
+  text.length > length ? `${text.slice(0, length)}...` : text;

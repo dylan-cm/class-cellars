@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./Root";
 import Account from "./components/pages/Account/Account";
 import Cart from "./components/pages/Cart/Cart";
+import ProductsPage from "./components/pages/ProductsPage/ProductsPage";
 
 const Home = lazy(() => import("./components/pages/Home/Home"));
 const ErrPage = lazy(() => import("./components/pages/ErrPage/ErrPage"));
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/test",
         element: suspenseful(<ComponentTesting />),
+      },
+      {
+        path: "/products",
+        element: suspenseful(<ProductsPage />),
       },
       {
         path: "*",
