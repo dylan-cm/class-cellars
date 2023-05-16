@@ -4,6 +4,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   box-sizing: border-box;
+  position: relative;
 }
 .EmailInput {
   width: 100%;
@@ -53,4 +54,25 @@
 
 .EmailCapture .JoinButton:active {
   background-image: linear-gradient(rgb(255 255 255/20%) 0 0);
+}
+
+.SuccessNotification {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--brand-lm-10-mid);
+  color: white;
+  font-family: "Roboto";
+  font-weight: bold;
+  border-radius: 10px;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+  pointer-events: none;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./EmailCapture.css";
-import { submitEmail } from "../../../functions/actions";
+import { addCustomer } from "../../../functions/actions";
 import { Status } from "../../../constants";
 // import { shopifyApi, Session, ApiVersion } from "@shopify/shopify-api";
 
@@ -38,15 +38,12 @@ const EmailCapture = ({ ...props }: EmailCaptureProps) => {
   const [status, setStatus] = useState<Status>(Status.Enabled);
 
   const handleSubmit = async () => {
-    // const response = await shopify.clients.Graphql();
     //todo: validateEmail(email)
-    submitEmail(email);
+    const resCode = await addCustomer(email);
     if (status === Status.Success || status === Status.Loading) return;
-    alert(email);
     setStatus(Status.Loading);
-    //TODO: const res = await sendToShopify(email)
-    const resCode = "200";
-    setStatus(resCode === "200" ? Status.Success : Status.Fail);
+    setStatus(resCode === 200 ? Status.Success : Status.Fail);
+    console.log(resCode);
   };
 
   return (
@@ -61,6 +58,23 @@ const EmailCapture = ({ ...props }: EmailCaptureProps) => {
       />
       <div className="JoinButton" onClick={handleSubmit}>
         Sign Up
+      </div>
+      <div
+        className="SuccessNotification"
+        style={{
+          opacity:
+            status === Status.Enabled || status === Status.Disabled ? 0 : 1,
+          pointerEvents:
+            status === Status.Enabled || status === Status.Disabled
+              ? "none"
+              : "auto",
+        }}
+      >
+        {status === Status.Loading
+          ? "...Signing Up"
+          : status === Status.Fail
+          ? "There's been an error. Try refreshing the page."
+          : "Thank you for signing up! Classified wines incoming."}
       </div>
     </div>
   );

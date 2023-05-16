@@ -136,7 +136,7 @@ export const addCustomer = async (email: string) => {
 
     const data = await response.json();
 
-    console.log("Customer created successfully:", data);
+    return response.status;
   } catch (error) {
     console.error("Failed to create customer:", error);
   }
