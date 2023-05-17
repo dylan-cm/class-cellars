@@ -22,13 +22,13 @@ const Navbar = ({ ...props }: NavbarProps) => {
   }, []);
 
   const location = useLocation();
-  const getHashClass = (label: string) =>
-    "NavButton " + (location.hash.slice(1) === label ? "Active" : "");
-  const getLinkClass = (label: string) => {
-    return (
-      "NavButton " + (location.pathname.slice(1) === label ? "Active" : "")
-    );
-  };
+  // const getHashClass = (label: string) =>
+  //   "NavButton " + (location.hash.slice(1) === label ? "Active" : "");
+  // const getLinkClass = (label: string) => {
+  //   return (
+  //     "NavButton " + (location.pathname.slice(1) === label ? "Active" : "")
+  //   );
+  // };
   const isSticky = () =>
     location.pathname !== "/" || menuOpen ? " Sticky" : "";
   const scrolled = scrollPosition > 76 ? " Scrolled" : "";
