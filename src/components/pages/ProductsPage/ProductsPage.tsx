@@ -81,7 +81,6 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
     if (!hasPrevPage) return;
     newFetch(true, startCursor);
   };
-  console.log(products[0]);
 
   return (
     <div className="ProductsPage">
