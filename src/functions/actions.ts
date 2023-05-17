@@ -28,6 +28,7 @@ export const fetchProducts = async ({
       : ""
   }) {
         nodes {
+          handle
           title
           id
           productType
@@ -35,6 +36,7 @@ export const fetchProducts = async ({
           description(truncateAt: ${props.descriptionTruncate})
           featuredImage {
             url
+            altText
           }
           variants(first: 1) {
             nodes {
@@ -368,4 +370,47 @@ export const getCart = async ({
   }
 
   return responseBody.cart;
+};
+
+export const getProduct = async (productId?: string, handle?: boolean) => {
+  const query = `
+    query {
+      product(${handle ? "handle" : "id"}: "${productId}") {
+        handle
+        title
+        id
+        productType
+        availableForSale
+        description
+        featuredImage {
+          url
+          altText
+        }
+        variants(first: 1) {
+          nodes {
+            id
+            quantityAvailable
+            price {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  `;
+  const response = await shopifyFetch(query);
+  const responseBody: {
+    data: { product: Product };
+  } = await response.json();
+  if (!responseBody?.data?.product?.id) {
+    throw new Error(
+      `
+      Failed to fetch product.
+      [${response.status}]: ${responseBody}
+      `
+    );
+  }
+
+  return responseBody.data.product;
 };

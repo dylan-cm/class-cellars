@@ -22,3 +22,16 @@ export const scrollWithOffset = (el: any) => {
 
 export const truncate = (text: string, length: number) =>
   text.length > length ? `${text.slice(0, length)}...` : text;
+
+export const formatMoney = ({
+  amount,
+  currencyCode,
+}: {
+  amount: string | number;
+  currencyCode: string;
+}): string =>
+  Number(amount).toLocaleString("en-US", {
+    style: "currency",
+    maximumFractionDigits: 0,
+    currency: currencyCode,
+  });

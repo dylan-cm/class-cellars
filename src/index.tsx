@@ -14,6 +14,9 @@ const ErrPage = lazy(() => import("./components/pages/ErrPage/ErrPage"));
 const ProductsPage = lazy(
   () => import("./components/pages/ProductsPage/ProductsPage")
 );
+const ProductDetailPage = lazy(
+  () => import("./components/pages/ProductDetailPage/ProductDetailPage")
+);
 
 const suspenseful = (element: JSX.Element) => {
   return (
@@ -49,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: suspenseful(<ProductsPage />),
+      },
+      {
+        path: "/product/:productHandle",
+        element: suspenseful(<ProductDetailPage />),
       },
       {
         path: "*",

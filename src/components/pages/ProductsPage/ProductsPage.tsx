@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./ProductsPage.css";
 import { addToCart, fetchProducts } from "../../../functions/actions";
-import { truncate } from "../../../functions/utilities";
+import { formatMoney, truncate } from "../../../functions/utilities";
+import { useNavigate } from "react-router-dom";
 
 interface ProductsPageProps {}
 
@@ -17,6 +18,8 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
   const [endCursor, setEndCursor] = useState<string | undefined>();
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(false);
+
+  const navigate = useNavigate();
 
   const newFetch = async (back?: boolean, cursor?: string) => {
     const fetched = await fetchProducts({
@@ -67,9 +70,8 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
     //todo: sort results
   };
 
-  const selectProduct = (id: string) => {
-    //todo: navigate to product page
-    console.log("select product", id);
+  const selectProduct = (handle: string) => {
+    navigate(`/product/${handle}`);
   };
 
   const loadNextProducts = async () => {
@@ -122,7 +124,7 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
               <div
                 key={product.id}
                 className="ProductCard"
-                onClick={(e) => selectProduct(product.handle)}
+                onClick={() => selectProduct(product.handle)}
               >
                 <div className="CardTop">
                   <img
@@ -144,13 +146,12 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
                     }}
                   >
                     <p>{product.description}</p>
-                    <span className="Price">{`${Number(
-                      variant.price.amount
-                    ).toLocaleString("en-US", {
-                      style: "currency",
-                      maximumFractionDigits: 0,
-                      currency: variant.price.currencyCode,
-                    })}`}</span>
+                    <span className="Price">
+                      {formatMoney({
+                        amount: variant.price.amount,
+                        currencyCode: variant.price.currencyCode,
+                      })}
+                    </span>
                   </div>
                 </div>
                 <div
