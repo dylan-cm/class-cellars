@@ -5,6 +5,9 @@ import { truncate } from "../../../functions/utilities";
 
 interface ProductsPageProps {}
 
+const PLACEHOLDER_THUMBNAIL =
+  "https://placeholder.pics/svg/200x240/A6323B-4F0B41/FFFFFF-000000";
+
 const ProductsPage = ({ ...props }: ProductsPageProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [sort, setSort] = useState<number>(0);
@@ -16,23 +19,17 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
   const [hasNextPage, setHasNextPage] = useState(false);
 
   const newFetch = async (back?: boolean, cursor?: string) => {
-    const {
-      fetchedProducts,
-      newStartCursor,
-      newEndCursor,
-      newHasNextPage,
-      newHasPreviousPage,
-    } = await fetchProducts({
-      amount: 20,
-      descriptionTruncate: 0,
+    const fetched = await fetchProducts({
+      amount: 18,
+      descriptionTruncate: 6,
       back,
       cursor,
     });
-    setProducts(fetchedProducts);
-    setStartCursor(newStartCursor);
-    setEndCursor(newEndCursor);
-    setHasNextPage(newHasNextPage);
-    setHasPrevPage(newHasPreviousPage);
+    setProducts(fetched.products);
+    setStartCursor(fetched.pageInfo.startCursor);
+    setEndCursor(fetched.pageInfo.endCursor);
+    setHasNextPage(fetched.pageInfo.hasNextPage);
+    setHasPrevPage(fetched.pageInfo.hasPreviousPage);
   };
 
   useEffect(() => {
@@ -51,15 +48,6 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
     };
     initFetch();
   }, []);
-
-  // debugging purposes
-  // useEffect(() => {
-  //   console.log("new load", {
-  //     products: products.length,
-  //     startCursor,
-  //     endCursor,
-  //   });
-  // }, [startCursor, endCursor, products]);
 
   const selectChip = (id: number) => {
     setSelectedChip(id);
@@ -93,6 +81,7 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
     if (!hasPrevPage) return;
     newFetch(true, startCursor);
   };
+  console.log(products[0]);
 
   return (
     <div className="ProductsPage">
@@ -128,24 +117,43 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
         </div>
         <div className="ProductsGrid">
           {products.map((product) => {
+            const variant = product.variants?.nodes[0];
+            if (!variant) return undefined;
             return (
               <div
                 key={product.id}
                 className="ProductCard"
-                onClick={(e) => selectProduct(product.id)}
+                onClick={(e) => selectProduct(product.handle)}
               >
                 <div className="CardTop">
-                  <img src={product.img} alt={product.title} />
+                  <img
+                    //todo: add default pictures based off of type of wine (red, white, etc)
+                    src={product.featuredImage?.url || PLACEHOLDER_THUMBNAIL}
+                    alt={product.featuredImage?.altText || product.title}
+                  />
                   <div className="CardTitle">
                     <h4>{truncate(product.title, 1000)}</h4>
-                    <span>{`${Number(product.price).toLocaleString("en-US", {
+                  </div>
+                </div>
+                <div className="Categories">
+                  <p>{product.productType}</p>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <p>{product.description}</p>
+                    <span className="Price">{`${Number(
+                      variant.price.amount
+                    ).toLocaleString("en-US", {
                       style: "currency",
                       maximumFractionDigits: 0,
-                      currency: "USD",
+                      currency: variant.price.currencyCode,
                     })}`}</span>
                   </div>
                 </div>
-                <p className="Categories">{product.type}</p>
                 <div
                   className="CartAdd"
                   onClick={(e) => {

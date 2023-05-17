@@ -88,7 +88,6 @@
 .Sort {
   padding-left: 16px;
   font-size: 14px;
-  margin-bottom: 16px;
 }
 
 .Sort > select {
@@ -108,7 +107,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minMax(160px, 1fr));
   grid-template-rows: repeat(auto, 1fr);
-  gap: 25px 10px;
+  gap: 12px 12px;
   justify-items: center;
   justify-content: center;
   padding: 16px;
@@ -143,12 +142,6 @@
 .ProductCard > p {
   margin: 0px;
   font-size: 14px;
-}
-
-.ProductCard > p > span {
-  font-size: 14px;
-  text-decoration: underline;
-  margin-left: 8px;
 }
 
 .CardTop {
@@ -190,18 +183,21 @@
   box-sizing: border-box;
 }
 
-.ProductCard .CardTitle span {
+.ProductCard .Categories .Price {
   font-size: 14px;
   font-weight: 400;
   font-family: "Roboto";
 }
 
 .ProductCard .Categories {
+  justify-self: flex-end;
+  width: 100%;
+}
+
+.ProductCard .Categories p {
   color: gray;
   font-size: 14px;
   margin: 4px 0px;
-  box-sizing: border-box;
-  justify-self: flex-end;
 }
 
 .ProductCard .CartAdd {
@@ -237,7 +233,7 @@
   border: 1px inset rgba(0, 0, 0, 0.25);
   cursor: pointer;
   user-select: none;
-  margin: 24px 12px;
+  margin: 12px 12px;
   margin-bottom: 64px;
 }
 
