@@ -53,6 +53,7 @@ const Navbar = ({ ...props }: NavbarProps) => {
           <Logo className={"Logo" + (menuOpen ? " LightLogo" : "")} />
         </HashLink>
         <NavHashLink to={"/products"}>Cellar</NavHashLink>
+        <NavHashLink to={"/cart"}>Cart</NavHashLink>
         <HashLink to="/#newsletter" smooth onClick={focusInput}>
           <div className="JoinButton">Join</div>
         </HashLink>

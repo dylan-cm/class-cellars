@@ -1,0 +1,55 @@
+.Cart {
+  font-family: "Roboto", sans-serif;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 16px;
+}
+
+.Cart h2 {
+  margin: 0;
+  padding: 16px 0;
+}
+
+.Cart p {
+  font-size: 14px;
+  color: gray;
+}
+
+.CartItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.CartItemDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.CartItem button {
+  font-size: 14px;
+  background: white;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px inset rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  user-select: none;
+}
+
+.CartItem button:hover {
+  background: var(--brand-lm-10-mid);
+  color: white;
+}
+
+.CartItem button:active {
+  background: var(--brand-lm-10-lit);
+  color: white;
+}

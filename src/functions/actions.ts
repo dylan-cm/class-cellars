@@ -118,8 +118,8 @@ const createCart = async (input?: any): Promise<Cart> => {
               id
             }
           }
-          cost: {
-            subTotalAmount {
+          cost {
+            subtotalAmount {
               amount
               currencyCode
             }
@@ -144,21 +144,26 @@ const createCart = async (input?: any): Promise<Cart> => {
 
   const response = await shopifyFetch(query);
   const responseBody: {
-    cart: Cart;
-    userErrors: ShopifyErr;
+    data: { cartCreate: { cart: Cart; userErrors: ShopifyErr[] } };
   } = await response.json();
-  if (
-    responseBody?.userErrors ||
-    !responseBody?.cart?.id ||
-    !responseBody?.cart?.checkoutUrl
-  ) {
-    throw new Error(
-      `[${response.status}]: ${response.statusText}
-      Failed to create cart: ${JSON.stringify(responseBody.userErrors)}`
-    );
-  }
 
-  return responseBody.cart;
+  if (!responseBody?.data)
+    throw new Error(
+      `request error: [${response.status}]: ${response.statusText}`
+    );
+  if (responseBody?.data?.cartCreate?.userErrors.length > 0)
+    throw new Error(`api error: ${responseBody?.data?.cartCreate?.userErrors}`);
+  if (!responseBody?.data?.cartCreate?.cart?.checkoutUrl)
+    throw new Error(`No checkout url provided`);
+  if (!responseBody?.data?.cartCreate?.cart?.id)
+    throw new Error(`No cart ID provided`);
+
+  localStorage.setItem("cartId", responseBody?.data?.cartCreate.cart.id);
+  localStorage.setItem(
+    "checkoutUrl",
+    responseBody?.data?.cartCreate.cart?.checkoutUrl
+  );
+  return responseBody?.data?.cartCreate.cart;
 };
 
 //? export const createCheckout = async (): Promise<string | null> => {
@@ -212,11 +217,202 @@ const createCart = async (input?: any): Promise<Cart> => {
 //   return responseBody.data?.checkoutCreate?.checkout?.id || null;
 // };
 
+export const removeFromCart = async (lineId: string): Promise<Cart> => {
+  var cartId = localStorage.getItem("cartId");
+  if (!cartId) {
+    throw new Error("No cart exists. Cannot Remove item");
+  }
+
+  const getCartQuery = `
+  query {
+    cart(id: "${cartId}") {
+      lines(first: 100) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
+  let cartResponse = await shopifyFetch(getCartQuery);
+  let cartResponseBody: {
+    data: {
+      cart: {
+        lines: {
+          edges: {
+            node: {
+              id: string;
+            };
+          }[];
+        };
+      };
+    };
+  } = await cartResponse.json();
+  let merchandiseInCart =
+    cartResponseBody?.data?.cart?.lines?.edges?.map((edge) => edge.node.id) ||
+    [];
+
+  if (!merchandiseInCart.includes(lineId)) {
+    throw new Error("Merchandise is not in the cart");
+  }
+
+  const query = `
+    mutation  {
+      cartLinesRemove(lineIds: ["${lineId}"], cartId: "${cartId}") {
+        cart {
+          buyerIdentity {
+            countryCode
+            customer {
+              email
+              displayName
+              id
+            }
+          }
+          checkoutUrl
+          updatedAt
+          totalQuantity
+          id
+          cost {
+            subtotalAmount {
+              amount
+              currencyCode
+            }
+            totalAmount {
+              amount
+              currencyCode
+            }
+            totalTaxAmount {
+              amount
+              currencyCode
+            }
+          }
+          createdAt
+          lines(first: 100) {
+            nodes {
+              cost {
+                totalAmount {
+                  amount
+                  currencyCode
+                }
+              }
+              id
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  product {
+                    description
+                    featuredImage {
+                      altText
+                      id
+                      url(transform: {maxHeight: 400, maxWidth: 400})
+                    }
+                    handle
+                    id
+                    productType
+                    title
+                  }
+                  availableForSale
+                  currentlyNotInStock
+                  price {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+            pageInfo {
+              endCursor
+              hasNextPage
+              hasPreviousPage
+              startCursor
+            }
+          }
+        }
+        userErrors {
+          field
+          message
+          code
+        }
+      }
+    }
+  `;
+
+  const response = await shopifyFetch(query);
+  const responseBody: {
+    data: { cartLinesRemove: { cart: Cart; userErrors: ShopifyErr[] } };
+    errors: any[];
+  } = await response.json();
+
+  if (!responseBody?.data)
+    throw new Error(
+      `request error: 
+      response:${JSON.stringify(response)}
+      responseBody: ${JSON.stringify(responseBody.errors)}
+      `
+    );
+  if (responseBody?.data?.cartLinesRemove?.userErrors.length > 0)
+    throw new Error(
+      `api error: ${responseBody?.data?.cartLinesRemove?.userErrors}`
+    );
+  if (!responseBody?.data?.cartLinesRemove?.cart?.checkoutUrl)
+    throw new Error(`No checkout url provided`);
+  if (!responseBody?.data?.cartLinesRemove?.cart?.id)
+    throw new Error(`No cart ID provided`);
+
+  return responseBody?.data?.cartLinesRemove.cart;
+};
+
 export const addToCart = async (merchandiseId: string): Promise<Cart> => {
   var cartId = localStorage.getItem("cartId");
   if (!cartId) {
     cartId = (await createCart()).id;
     if (!createCart) throw new Error("No cart id");
+  }
+
+  const getCartQuery = `
+  query {
+    cart(id: "${cartId}") {
+      lines(first: 100) {
+        edges {
+          node {
+            merchandise {
+              ... on ProductVariant {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+  let cartResponse = await shopifyFetch(getCartQuery);
+  let cartResponseBody: {
+    data: {
+      cart: {
+        lines: {
+          edges: {
+            node: {
+              merchandise: {
+                id: string;
+              };
+            };
+          }[];
+        };
+      };
+    };
+  } = await cartResponse.json();
+  let merchandiseInCart =
+    cartResponseBody?.data?.cart?.lines?.edges?.map(
+      (edge) => edge.node.merchandise.id
+    ) || [];
+
+  if (merchandiseInCart.includes(merchandiseId)) {
+    throw new Error("Merchandise is already in the cart");
   }
 
   const query = `
@@ -233,8 +429,8 @@ export const addToCart = async (merchandiseId: string): Promise<Cart> => {
               id
             }
           }
-          cost: {
-            subTotalAmount {
+          cost {
+            subtotalAmount {
               amount
               currencyCode
             }
@@ -259,33 +455,36 @@ export const addToCart = async (merchandiseId: string): Promise<Cart> => {
 
   const response = await shopifyFetch(query);
   const responseBody: {
-    cart: Cart;
-    userErrors: ShopifyErr;
+    data: { cartLinesAdd: { cart: Cart; userErrors: ShopifyErr[] } };
+    errors: any[];
   } = await response.json();
-  if (
-    responseBody?.userErrors ||
-    !responseBody?.cart?.id ||
-    !responseBody?.cart?.checkoutUrl
-  ) {
-    throw new Error(
-      `[${response.status}]: ${response.statusText}
-      Failed to add to cart: ${JSON.stringify(responseBody.userErrors)}`
-    );
-  }
 
-  return responseBody.cart;
+  if (!responseBody?.data)
+    throw new Error(
+      `request error: 
+      response:${JSON.stringify(response)}
+      responseBody: ${JSON.stringify(responseBody.errors)}
+      `
+    );
+  if (responseBody?.data?.cartLinesAdd?.userErrors.length > 0)
+    throw new Error(
+      `api error: ${responseBody?.data?.cartLinesAdd?.userErrors}`
+    );
+  if (!responseBody?.data?.cartLinesAdd?.cart?.checkoutUrl)
+    throw new Error(`No checkout url provided`);
+  if (!responseBody?.data?.cartLinesAdd?.cart?.id)
+    throw new Error(`No cart ID provided`);
+
+  return responseBody?.data?.cartLinesAdd.cart;
 };
 
-export const getCart = async ({
-  ...props
-}: {
-  cartId?: string;
-}): Promise<Cart> => {
-  var cartId: string | null | undefined = props.cartId;
+export const getCart = async (givenCartId?: string): Promise<Cart> => {
+  var cartId: string | null | undefined = givenCartId;
   if (!cartId) cartId = localStorage.getItem("cartId");
   if (!cartId) {
-    cartId = (await createCart()).id;
-    if (!createCart) throw new Error("No cart id");
+    const newCart = await createCart();
+    cartId = newCart.id;
+    if (!cartId) throw new Error("No cart id");
   }
 
   const query = `
@@ -344,6 +543,10 @@ export const getCart = async ({
                 }
                 availableForSale
                 currentlyNotInStock
+                price {
+                  amount
+                  currencyCode
+                }
               }
             }
           }
@@ -360,16 +563,15 @@ export const getCart = async ({
 
   const response = await shopifyFetch(query);
   const responseBody: {
-    cart: Cart;
+    data: { cart: Cart };
   } = await response.json();
-  if (!responseBody?.cart?.id || !responseBody?.cart?.checkoutUrl) {
+  if (!responseBody?.data?.cart?.id || !responseBody?.data?.cart?.checkoutUrl) {
     throw new Error(
       `[${response.status}]: ${response.statusText}
       Failed to fetch cart.`
     );
   }
-
-  return responseBody.cart;
+  return responseBody.data.cart;
 };
 
 export const getProduct = async (productId?: string, handle?: boolean) => {

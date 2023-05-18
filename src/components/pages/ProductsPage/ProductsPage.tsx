@@ -158,7 +158,7 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
                   className="CartAdd"
                   onClick={(e) => {
                     e.stopPropagation();
-                    addToCart(product.id);
+                    addToCart(variant.id);
                   }}
                 />
               </div>
