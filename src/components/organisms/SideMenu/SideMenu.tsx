@@ -39,7 +39,7 @@ const SideMenu = ({ showSideMenu, handleSideMenu }: SideMenuProps) => {
           Cellar
         </div>
         <div
-          onClick={() => navigate("/cart")}
+          onClick={() => handleNavigate("/cart")}
           className="SideMenuLink SideMenuCartButton"
         >
           {"Cart "}
