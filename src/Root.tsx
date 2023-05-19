@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/organisms/Navbar/Navbar";
+import SideMenu from "./components/organisms/SideMenu/SideMenu";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import "./App.css";
 
 interface RootProps {}
 
 const Root = ({ ...props }: RootProps) => {
+  const [showSideMenu, setShowSideMenu] = useState(false);
+
+  const handleSideMenu = () => {
+    setShowSideMenu(!showSideMenu);
+  };
   return (
     <HelmetProvider>
       <Helmet>
@@ -15,8 +22,11 @@ const Root = ({ ...props }: RootProps) => {
         </style>
       </Helmet>
       <div className="Root">
-        <Navbar />
-        <Outlet />
+        <SideMenu handleSideMenu={handleSideMenu} showSideMenu={showSideMenu} />
+        <div className={showSideMenu ? "App Blurred" : "App"}>
+          <Navbar handleSideMenu={handleSideMenu} />
+          <Outlet />
+        </div>
       </div>
     </HelmetProvider>
   );

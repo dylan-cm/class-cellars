@@ -1,0 +1,98 @@
+.SideMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 36px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 80vw;
+  z-index: 1001;
+  background-color: var(--brand-lm-30-mid);
+  padding: 24px;
+}
+
+.Hidden {
+  display: none;
+}
+
+.SideMenuWrapper {
+  width: 100vh;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+.SideMenuLink {
+  font-size: 16px;
+  color: white;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.SideMenuCloseButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  cursor: pointer;
+}
+
+.SideMenuJoinButton {
+  padding: 8px 24px;
+  border-radius: 4px;
+  background-color: var(--brand-lm-10-mid);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.SideMenu > p {
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0px;
+  margin-top: 36px;
+}
+
+.SideMenuCartButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 6px;
+  color: white;
+}
+
+.SideMenuCartQtyIndicator {
+  position: absolute;
+  color: white;
+  background-color: var(--brand-lm-10-mid);
+  bottom: -4px;
+  right: -4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+}

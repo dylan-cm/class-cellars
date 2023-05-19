@@ -3,6 +3,7 @@ import "./ProductsPage.css";
 import { addToCart, fetchProducts } from "../../../functions/actions";
 import { formatMoney, truncate } from "../../../functions/utilities";
 import { useNavigate } from "react-router-dom";
+import { MdAddShoppingCart } from "react-icons/md";
 
 interface ProductsPageProps {}
 
@@ -160,7 +161,9 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
                     e.stopPropagation();
                     addToCart(variant.id);
                   }}
-                />
+                >
+                  <MdAddShoppingCart />
+                </div>
               </div>
             );
           })}

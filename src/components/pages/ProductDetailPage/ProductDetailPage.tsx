@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./ProductDetailPage.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProduct } from "../../../functions/actions";
+import { addToCart, getProduct } from "../../../functions/actions";
 import { formatMoney } from "../../../functions/utilities";
+import { MdAddShoppingCart, MdArrowBack } from "react-icons/md";
 
 interface ProductDetailPageProps {}
 
@@ -29,24 +30,35 @@ const ProductDetailPage = ({ ...props }: ProductDetailPageProps) => {
   const variant = product.variants.nodes[0];
   return (
     <div className="ProductDetailPage">
-      <div className="BackButton" onClick={goBack}>
-        Back
+      <div className="InteractiveRow">
+        <div className="BackButton" onClick={goBack}>
+          <MdArrowBack size={24} /> Back to all wines.
+        </div>
       </div>
       <div className="Wrapper">
         <img
+          className="ProductPhoto"
           src={product.featuredImage?.url || PLACEHOLDER_THUMBNAIL}
           alt={product.featuredImage?.altText || product.handle}
         />
         <div className="Details">
           <h1>{product.title}</h1>
-          <p>
-            {formatMoney({
-              amount: variant.price.amount,
-              currencyCode: variant.price.currencyCode,
-            })}
-          </p>
           <p>{product.productType}</p>
           <p>{product.description}</p>
+          <div className="DetailsBottom">
+            <div className="PriceOfProduct">
+              {formatMoney({
+                amount: variant.price.amount,
+                currencyCode: variant.price.currencyCode,
+              })}
+            </div>
+            <div
+              className="DetailsCartAddButton"
+              onClick={() => addToCart(variant.id)}
+            >
+              <MdAddShoppingCart color="white" size={24} /> Add to Cart
+            </div>
+          </div>
         </div>
       </div>
     </div>

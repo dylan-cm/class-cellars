@@ -7,16 +7,20 @@
   box-sizing: border-box;
   background-color: white;
   padding: 16px;
+  min-height: calc(100vh - 76px);
 }
 
-.Cart h2 {
-  margin: 0;
-  padding: 16px 0;
+.Cart > .Wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .Cart p {
-  font-size: 14px;
-  color: gray;
+  font-size: 16px;
+  color: black;
 }
 
 .CartItem {
@@ -31,6 +35,8 @@
 .CartItemDetails {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  margin-left: 12px;
 }
 
 .CartItem button {
@@ -42,6 +48,7 @@
   border: 1px inset rgba(0, 0, 0, 0.25);
   cursor: pointer;
   user-select: none;
+  align-self: flex-end;
 }
 
 .CartItem button:hover {
@@ -52,4 +59,88 @@
 .CartItem button:active {
   background: var(--brand-lm-10-lit);
   color: white;
+}
+
+button.RemoveLoading {
+  background: var(--brand-lm-10-mid);
+  color: white;
+  cursor: none;
+}
+
+.CartItem img {
+  width: 64px;
+  border-radius: 4px;
+  margin-right: 16px;
+}
+
+.CartItem .Left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Cart .TitleArea {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.Cart .TitleArea > h1 {
+  margin: 0px;
+}
+
+.Cart .TitleArea > h6 {
+  color: gray;
+  font-size: 14px;
+  font-weight: 300;
+  margin: 0px;
+}
+
+.Cart .Line {
+  max-width: 240px;
+  width: 100%;
+  height: 1px;
+  background: black;
+  box-sizing: border-box;
+}
+
+.Cart .Overview {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  height: 120px;
+  box-sizing: border-box;
+}
+
+.Cart .CheckoutButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: var(--brand-lm-10-mid);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  margin: 12px 0px;
+}
+
+.Cart .Row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 1200px;
+  border-bottom: 1px solid black;
+  margin-bottom: 48px;
+}
+
+.Cart h3 {
+  margin: 0;
 }

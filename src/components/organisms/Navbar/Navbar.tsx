@@ -1,64 +1,57 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { HashLink, NavHashLink } from "react-router-hash-link";
+import { useNavigate } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../../../assets/Logo - Light.svg";
 
 import "./Navbar.css";
+import { MdMenu } from "react-icons/md";
+import { MdShoppingCart } from "react-icons/md";
 
-interface NavbarProps {}
-
-const Navbar = ({ ...props }: NavbarProps) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
-
+// Navigation Bar Component
+interface NavbarProps {
+  handleSideMenu: () => void;
+}
+const Navbar = ({ handleSideMenu }: NavbarProps) => {
+  const localQty = Number(localStorage.getItem("cartQty")) || 0;
+  const [cartQty, setCartQty] = useState(localQty);
+  const navigate = useNavigate();
   useEffect(() => {
-    const updatePosition = () => {
-      setScrollPosition(window.pageYOffset);
-    };
-    window.addEventListener("scroll", updatePosition);
-    updatePosition();
-    return () => window.removeEventListener("scroll", updatePosition);
-  }, []);
-
-  const location = useLocation();
-  // const getHashClass = (label: string) =>
-  //   "NavButton " + (location.hash.slice(1) === label ? "Active" : "");
-  // const getLinkClass = (label: string) => {
-  //   return (
-  //     "NavButton " + (location.pathname.slice(1) === label ? "Active" : "")
-  //   );
-  // };
-  const isSticky = () =>
-    location.pathname !== "/" || menuOpen ? " Sticky" : "";
-  const scrolled = scrollPosition > 76 ? " Scrolled" : "";
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "auto";
-  }, [menuOpen]);
-
-  const focusInput = () => {
-    const emailCaptureInput = document.getElementById("emailCaptureInputHero");
-    if (emailCaptureInput) emailCaptureInput.focus();
-  };
-
+    setCartQty(localQty);
+  }, [localQty]);
   return (
-    <>
-      <nav
-        className={
-          "Navbar" + isSticky() + (menuOpen ? " MenuNavBackground" : "")
-        }
-      >
-        <div className={"NavbarBackground" + scrolled} />
-        <HashLink to="/#top" smooth onClick={() => setMenuOpen(false)}>
-          <Logo className={"Logo" + (menuOpen ? " LightLogo" : "")} />
-        </HashLink>
-        <NavHashLink to={"/products"}>Cellar</NavHashLink>
-        <NavHashLink to={"/cart"}>Cart</NavHashLink>
-        <HashLink to="/#newsletter" smooth onClick={focusInput}>
-          <div className="JoinButton">Join</div>
-        </HashLink>
-      </nav>
-    </>
+    <div className={"Navbar"}>
+      <Logo className={"Logo"} />
+      <div className="NavLinks-desktop">
+        <div onClick={() => navigate("/")} className="NavbarLink">
+          Home
+        </div>
+        <div onClick={() => navigate("/products")} className="NavbarLink">
+          Cellar
+        </div>
+        <div
+          onClick={() => navigate("/cart")}
+          className="NavbarLink NavbarCartButton"
+        >
+          {"Cart "}
+          <MdShoppingCart
+            size={24}
+            color={cartQty ? "var(--brand-lm-10-mid)" : "black"}
+          />
+          {cartQty > 0 && <div className="CartQtyIndicator">{cartQty}</div>}
+        </div>
+        <div
+          onClick={() => navigate("/#newsletter")}
+          className="NavbarJoinButton"
+        >
+          Join
+        </div>
+      </div>
+      <div className="NavLinks-mobile">
+        <div className="SideMenuOpenButton" onClick={handleSideMenu}>
+          <MdMenu size={24} fill="white" />
+        </div>
+      </div>
+    </div>
   );
 };
 

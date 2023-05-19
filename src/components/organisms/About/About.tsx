@@ -5,7 +5,6 @@ import AboutImage from "../../../assets/about_image.jpg";
 import Wave from "../../../assets/about-layered-wave.svg";
 
 import Barrels from "../../../assets/barrels.svg";
-import { HashLink } from "react-router-hash-link";
 
 interface AboutProps {}
 

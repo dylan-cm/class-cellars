@@ -163,6 +163,12 @@ const createCart = async (input?: any): Promise<Cart> => {
     "checkoutUrl",
     responseBody?.data?.cartCreate.cart?.checkoutUrl
   );
+
+  localStorage.setItem(
+    "cartQty",
+    responseBody.data.cartCreate.cart.totalQuantity.toString()
+  );
+
   return responseBody?.data?.cartCreate.cart;
 };
 
@@ -362,7 +368,12 @@ export const removeFromCart = async (lineId: string): Promise<Cart> => {
   if (!responseBody?.data?.cartLinesRemove?.cart?.id)
     throw new Error(`No cart ID provided`);
 
-  return responseBody?.data?.cartLinesRemove.cart;
+  localStorage.setItem(
+    "cartQty",
+    responseBody.data.cartLinesRemove.cart.totalQuantity.toString()
+  );
+
+  return responseBody.data.cartLinesRemove.cart;
 };
 
 export const addToCart = async (merchandiseId: string): Promise<Cart> => {
@@ -475,6 +486,10 @@ export const addToCart = async (merchandiseId: string): Promise<Cart> => {
   if (!responseBody?.data?.cartLinesAdd?.cart?.id)
     throw new Error(`No cart ID provided`);
 
+  localStorage.setItem(
+    "cartQty",
+    responseBody.data.cartLinesAdd.cart.totalQuantity.toString()
+  );
   return responseBody?.data?.cartLinesAdd.cart;
 };
 
@@ -571,6 +586,12 @@ export const getCart = async (givenCartId?: string): Promise<Cart> => {
       Failed to fetch cart.`
     );
   }
+
+  localStorage.setItem(
+    "cartQty",
+    responseBody.data.cart.totalQuantity.toString()
+  );
+
   return responseBody.data.cart;
 };
 
