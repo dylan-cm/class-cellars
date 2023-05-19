@@ -65,6 +65,7 @@ button.RemoveLoading {
   background: var(--brand-lm-10-mid);
   color: white;
   cursor: none;
+  min-width: 64px;
 }
 
 .CartItem img {
