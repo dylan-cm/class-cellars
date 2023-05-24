@@ -36,7 +36,7 @@ const AgeVerificationModal = () => {
     >
       <div className="ModalContent">
         <h2>Age Verification</h2>
-        <p>Are you 18 or older?</p>
+        <p>Are you 21 or older?</p>
         <div className="Row">
           <button className="ModalButton" onClick={handleConfirm}>
             Yes
