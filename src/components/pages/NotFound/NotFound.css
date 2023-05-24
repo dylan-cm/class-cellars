@@ -1,0 +1,46 @@
+.NotFound {
+  height: 100%;
+  width: 100%;
+  color: var(--brand-lm-10-drk);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.NotFoundContent {
+  text-align: center;
+}
+
+.NotFound h1 {
+  font-size: 7em;
+  margin: 24px 0;
+}
+
+.NotFound h2 {
+  font-size: 2em;
+}
+
+.NotFound p {
+  margin-bottom: 2em;
+}
+
+.NotFound button {
+  padding: 0.5em 2em;
+  color: var(--brand-lm-10-mid);
+  border: 2px solid var(--brand-lm-10-mid);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.NotFound button:hover {
+  background-color: rgba(210, 21, 56, 0.2);
+}
+
+.NotFound img {
+  padding: 24px;
+  max-width: 360px;
+}

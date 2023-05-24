@@ -1,4 +1,14 @@
-export {};
+export enum ProductSortKeys {
+  BEST_SELLING = "BEST_SELLING",
+  CREATED_AT = "CREATED_AT",
+  ID = "ID",
+  PRICE = "PRICE",
+  PRODUCT_TYPE = "PRODUCT_TYPE",
+  RELEVANCE = "RELEVANCE",
+  TITLE = "TITLE",
+  UPDATED_AT = "UPDATED_AT",
+  VENDOR = "VENDOR",
+}
 
 declare global {
   //shopify 2023-01 storefront api

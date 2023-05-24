@@ -11,7 +11,9 @@ const ErrPage = ({ ...props }: ErrPageProps) => {
 
   return (
     <div className="ErrPage">
-      <h1>{error?.status || "404"}</h1>
+      <h1>Something has gone wrong.</h1>
+      <h2>Try again later.</h2>
+      <h3>{error?.status}</h3>
       <p>{error?.data}</p>
     </div>
   );

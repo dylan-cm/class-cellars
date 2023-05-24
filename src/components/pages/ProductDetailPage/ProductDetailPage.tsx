@@ -1,44 +1,67 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./ProductDetailPage.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { addToCart, getProduct } from "../../../functions/actions";
-import { formatMoney } from "../../../functions/utilities";
+import { getProduct } from "../../../functions/actions";
+import { defaultImage, formatMoney } from "../../../functions/utilities";
 import { MdAddShoppingCart, MdArrowBack } from "react-icons/md";
+import { CartContext } from "../../../functions/contextProviders";
+import LoadingDisplay from "../../atoms/LoadingDisplay";
+import ErrorDisplay from "../../molecules/ErrorDisplay/ErrorDisplay";
 
-interface ProductDetailPageProps {}
-
-const PLACEHOLDER_THUMBNAIL =
-  "https://placeholder.pics/svg/400x480/A6323B-4F0B41/FFFFFF-000000";
+interface ProductDetailPageProps {
+  back: string;
+}
 
 const ProductDetailPage = ({ ...props }: ProductDetailPageProps) => {
+  const { productHandle } = useParams<{
+    productHandle: string;
+  }>();
+  const { addToCart } = useContext(CartContext);
   const [product, setProduct] = useState<Product | undefined>();
-  const { productHandle } = useParams<{ productHandle: string }>();
-
+  const [error, setError] = useState<string | undefined>();
   const navigate = useNavigate();
-  const goBack = () => navigate(-1);
 
   useEffect(() => {
     const initFetch = async () => {
-      const fetched = await getProduct(productHandle, true);
-      setProduct(fetched);
+      try {
+        const fetched = await getProduct(productHandle, true);
+        setProduct(fetched);
+      } catch (e) {
+        if (e instanceof Error) setError(e.message);
+        else setError(String(e));
+      }
     };
     initFetch();
   }, [productHandle]);
 
-  if (!product || !product.variants) return <h1>...Loading</h1>; //todo: handle error state 'looks like we couldn't find that wine. go back to our cellar'
+  const handleAdd = async (variantId: string) => {
+    addToCart(variantId);
+  };
+
+  const goBack = () => {
+    navigate(`/${props.back}`);
+  };
+
+  if (error) {
+    return <ErrorDisplay message={error} />; // Use Error component
+  }
+
+  if (!product || !product.variants) {
+    return <LoadingDisplay />; // Use Loading component
+  }
 
   const variant = product.variants.nodes[0];
   return (
     <div className="ProductDetailPage">
       <div className="InteractiveRow">
         <div className="BackButton" onClick={goBack}>
-          <MdArrowBack size={24} /> Back to all wines.
+          <MdArrowBack size={24} /> {`Back to ${props.back}`}
         </div>
       </div>
       <div className="Wrapper">
         <img
           className="ProductPhoto"
-          src={product.featuredImage?.url || PLACEHOLDER_THUMBNAIL}
+          src={product.featuredImage?.url || defaultImage(product.productType)}
           alt={product.featuredImage?.altText || product.handle}
         />
         <div className="Details">
@@ -54,7 +77,7 @@ const ProductDetailPage = ({ ...props }: ProductDetailPageProps) => {
             </div>
             <div
               className="DetailsCartAddButton"
-              onClick={() => addToCart(variant.id)}
+              onClick={() => handleAdd(variant.id)}
             >
               <MdAddShoppingCart color="white" size={24} /> Add to Cart
             </div>

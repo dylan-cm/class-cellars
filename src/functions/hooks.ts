@@ -3,33 +3,36 @@ import { getCart } from "./actions";
 
 export const useFetchCart = () => {
   const [cart, setCart] = useState<Cart | undefined>();
-  const [hasFetched, setHasFetched] = useState<boolean>(false);
+  const [refreshRequired, setRefreshRequired] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null); // New state
+  const [error, setError] = useState<Error | null>(null);
+
+  const fetchCart = async () => {
+    try {
+      const fetchedCart = await getCart();
+      setCart(fetchedCart);
+      setIsFetching(true);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error("An unknown error occurred"));
+      }
+    } finally {
+      setIsFetching(false);
+      setRefreshRequired(false);
+    }
+  };
+
+  const refetch = () => {
+    setRefreshRequired(true);
+  };
 
   useEffect(() => {
-    if (!hasFetched && !isFetching) {
-      setIsFetching(true);
-      const fetchCart = async () => {
-        try {
-          const fetchedCart = await getCart();
-          setCart(fetchedCart);
-          setHasFetched(true);
-          // throw new Error("test error"); //for dev testing only
-        } catch (err) {
-          if (err instanceof Error) {
-            setError(err);
-          } else {
-            setError(new Error("An unknown error occurred"));
-          }
-        } finally {
-          setIsFetching(false);
-        }
-      };
-
+    if (!isFetching && refreshRequired) {
       fetchCart();
     }
-  }, [hasFetched, isFetching]);
+  }, [isFetching, refreshRequired]);
 
-  return { fetchedCart: cart, isFetching, error }; // Return error state
+  return { fetchedCart: cart, isFetching, error, refetch };
 };

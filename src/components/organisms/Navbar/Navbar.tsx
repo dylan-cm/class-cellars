@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { ReactComponent as Logo } from "../../../assets/Logo - Light.svg";
-
 import "./Navbar.css";
+import { ReactComponent as Logo } from "../../../assets/Logo - Light.svg";
 import { MdMenu } from "react-icons/md";
 import { MdShoppingCart } from "react-icons/md";
+import { CartContext } from "../../../functions/contextProviders";
 
 // Navigation Bar Component
 interface NavbarProps {
   handleSideMenu: () => void;
 }
 const Navbar = ({ handleSideMenu }: NavbarProps) => {
-  const localQty = Number(localStorage.getItem("cartQty")) || 0;
-  const [cartQty, setCartQty] = useState(localQty);
   const navigate = useNavigate();
-  useEffect(() => {
-    setCartQty(localQty);
-  }, [localQty]);
+  const { cartQuantity } = useContext(CartContext);
+
   return (
     <div className={"Navbar"}>
-      <Logo className={"Logo"} />
+      <Logo className={"Logo"} onClick={() => navigate("/")} />
       <div className="NavLinks-desktop">
         <div onClick={() => navigate("/")} className="NavbarLink">
           Home
         </div>
-        <div onClick={() => navigate("/products")} className="NavbarLink">
+        <div onClick={() => navigate("/cellar")} className="NavbarLink">
           Cellar
         </div>
         <div
@@ -35,9 +31,12 @@ const Navbar = ({ handleSideMenu }: NavbarProps) => {
           {"Cart "}
           <MdShoppingCart
             size={24}
-            color={cartQty ? "var(--brand-lm-10-mid)" : "black"}
+            color={cartQuantity ? "var(--brand-lm-10-mid)" : "black"}
+            id="navbar-shopping-cart-number"
           />
-          {cartQty > 0 && <div className="CartQtyIndicator">{cartQty}</div>}
+          {cartQuantity > 0 && (
+            <div className="CartQtyIndicator">{cartQuantity}</div>
+          )}
         </div>
         <div
           onClick={() => navigate("/#newsletter")}

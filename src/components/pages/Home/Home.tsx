@@ -4,10 +4,12 @@ import Hero from "../../organisms/Hero/Hero";
 import "./Home.css";
 import { Helmet } from "react-helmet-async";
 import About from "../../organisms/About/About";
+import AgeVerificationModal from "../../molecules/AgeVerificationModal/AgeVerificationModal";
 
 const Home = () => {
   return (
     <>
+      <AgeVerificationModal />
       <Helmet></Helmet>
       <div className="Home">
         <Hero />

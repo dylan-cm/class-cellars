@@ -57,6 +57,7 @@
   align-items: center;
   font-size: 16px;
   vertical-align: center;
+  cursor: pointer;
 }
 
 .DetailsCartAddButton {

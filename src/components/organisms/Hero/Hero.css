@@ -9,30 +9,32 @@
 }
 
 .Hero h1 {
-  font-family: "Lilita One", sans-serif;
+  font-family: "Jost", sans-serif;
   font-size: 36px;
-  font-weight: 400;
+  font-weight: 900;
+  line-height: 36px;
   margin: 0;
 }
 
 .Hero h2 {
-  font-family: "Lilita One", sans-serif;
+  font-family: "Jost", sans-serif;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 600;
+  font-style: italic;
   line-height: 20px;
   margin: 0;
   text-align: center;
 }
 
 .Hero h3 {
-  font-family: "Averia Serif Libre", serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 16px;
   margin: 0;
 }
 
 .Hero h3.Bold {
-  font-weight: 700;
+  font-weight: 900;
   margin: 0px;
 }
 
@@ -191,9 +193,9 @@
   order: 2;
   flex-grow: 0;
 
-  font-family: "Lilita One";
+  font-family: "Jost", sans-serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 16px;
   line-height: 18px;
 

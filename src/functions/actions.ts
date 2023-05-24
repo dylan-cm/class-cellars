@@ -1,5 +1,76 @@
+import { ProductSortKeys } from "../global.d";
+
 const SHOPIFY_API_BASE_URL =
   "https://classifiedcellars.myshopify.com/api/2023-01/graphql.json";
+
+const CART_QUERY_OPTIONS = `buyerIdentity {
+  countryCode
+  customer {
+    email
+    displayName
+    id
+  }
+}
+checkoutUrl
+updatedAt
+totalQuantity
+id
+cost {
+  subtotalAmount {
+    amount
+    currencyCode
+  }
+  totalAmount {
+    amount
+    currencyCode
+  }
+  totalTaxAmount {
+    amount
+    currencyCode
+  }
+}
+createdAt
+lines(first: 100) {
+  nodes {
+    cost {
+      totalAmount {
+        amount
+        currencyCode
+      }
+    }
+    id
+    merchandise {
+      ... on ProductVariant {
+        id
+        product {
+          description
+          featuredImage {
+            altText
+            id
+            url(transform: {maxHeight: 400, maxWidth: 400})
+          }
+          handle
+          id
+          productType
+          title
+        }
+        availableForSale
+        currentlyNotInStock
+        price {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+  pageInfo {
+    endCursor
+    hasNextPage
+    hasPreviousPage
+    startCursor
+  }
+}`;
+
 const shopifyFetch = async (query: string) => {
   return await fetch(SHOPIFY_API_BASE_URL, {
     method: "POST",
@@ -13,20 +84,33 @@ const shopifyFetch = async (query: string) => {
 };
 
 export const fetchProducts = async ({
+  back,
+  cursor,
+  amount,
+  productType,
+  reverse,
+  sortKey,
   ...props
 }: {
   amount: number;
   descriptionTruncate: number;
   cursor?: string;
   back?: boolean;
+  productType?: string;
+  sortKey?: ProductSortKeys;
+  reverse?: boolean;
 }): Promise<FetchProductsResponse> => {
   const query = `
     query {
-      products(${props.back ? "last" : "first"}: ${props.amount}${
-    props.cursor
-      ? `, ${props.back ? "before" : "after"}: "${props.cursor}"`
-      : ""
-  }) {
+      products(
+        first: ${!back ? amount : "null"},
+        last: ${back ? amount : "null"},
+        after: ${!back && cursor ? `"${cursor}"` : "null"},
+        before: ${back && cursor ? `"${cursor}"` : "null"},
+        query: "product_type:${productType || "*"}",
+        sortKey: ${sortKey || "null"},
+        reverse: ${reverse ? "true" : "false"},
+      ) {
         nodes {
           handle
           title
@@ -58,22 +142,31 @@ export const fetchProducts = async ({
       }
     }
   `;
-
   const response = await shopifyFetch(query);
-
-  const responseBody: ProductsResponseBody =
-    (await response.json()) as ProductsResponseBody;
+  const responseBody: {
+    data: {
+      products: {
+        nodes: Product[];
+        pageInfo: PageInfo;
+      };
+    };
+    errors: any[];
+  } = await response.json();
+  // console.log("responseBody", responseBody);
 
   if (responseBody.errors) {
-    throw new Error("Failed to fetch products");
+    throw new Error(`
+      Failed to fetch products.
+      [${response.status}]: ${response.statusText}
+      ${JSON.stringify(responseBody.errors)}
+    `);
   }
+
   return {
     products: responseBody.data.products.nodes,
     pageInfo: responseBody.data.products.pageInfo,
   };
 };
-
-//? export const createCustomerAccessToken = async () => {
 
 export const addCustomer = async (email: string) => {
   const functionUrl =
@@ -93,9 +186,7 @@ export const addCustomer = async (email: string) => {
     }
 
     const data = await response.json();
-    //todo: save customer id in local storage
-    //todo: get full response
-    console.log("data", data);
+    localStorage.setItem("customerId", data.id);
 
     return response.status;
   } catch (error) {
@@ -164,64 +255,8 @@ const createCart = async (input?: any): Promise<Cart> => {
     responseBody?.data?.cartCreate.cart?.checkoutUrl
   );
 
-  localStorage.setItem(
-    "cartQty",
-    responseBody.data.cartCreate.cart.totalQuantity.toString()
-  );
-
   return responseBody?.data?.cartCreate.cart;
 };
-
-//? export const createCheckout = async (): Promise<string | null> => {
-//   const query = `
-//     mutation {
-//       checkoutCreate(input: {}) {
-//         checkout {
-//           id
-//         }
-//         checkoutUserErrors {
-//           code
-//           field
-//           message
-//         }
-//       }
-//     }
-//   `;
-
-//   const response = await fetch(SHOPIFY_API_BASE_URL, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "X-Shopify-Storefront-Access-Token": "your-storefront-access-token",
-//     },
-//     body: JSON.stringify({ query }),
-//   });
-
-//   const responseBody: {
-//     data?: {
-//       checkoutCreate: {
-//         checkout: {
-//           id: string;
-//         };
-//         checkoutUserErrors: {
-//           code: string;
-//           field: string[];
-//           message: string;
-//         }[];
-//       };
-//     };
-//     errors?: { message: string }[];
-//   } = await response.json();
-
-//   if (
-//     responseBody.errors ||
-//     responseBody.data?.checkoutCreate?.checkoutUserErrors?.length
-//   ) {
-//     throw new Error("Failed to create checkout");
-//   }
-
-//   return responseBody.data?.checkoutCreate?.checkout?.id || null;
-// };
 
 export const removeFromCart = async (lineId: string): Promise<Cart> => {
   var cartId = localStorage.getItem("cartId");
@@ -269,73 +304,7 @@ export const removeFromCart = async (lineId: string): Promise<Cart> => {
     mutation  {
       cartLinesRemove(lineIds: ["${lineId}"], cartId: "${cartId}") {
         cart {
-          buyerIdentity {
-            countryCode
-            customer {
-              email
-              displayName
-              id
-            }
-          }
-          checkoutUrl
-          updatedAt
-          totalQuantity
-          id
-          cost {
-            subtotalAmount {
-              amount
-              currencyCode
-            }
-            totalAmount {
-              amount
-              currencyCode
-            }
-            totalTaxAmount {
-              amount
-              currencyCode
-            }
-          }
-          createdAt
-          lines(first: 100) {
-            nodes {
-              cost {
-                totalAmount {
-                  amount
-                  currencyCode
-                }
-              }
-              id
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  product {
-                    description
-                    featuredImage {
-                      altText
-                      id
-                      url(transform: {maxHeight: 400, maxWidth: 400})
-                    }
-                    handle
-                    id
-                    productType
-                    title
-                  }
-                  availableForSale
-                  currentlyNotInStock
-                  price {
-                    amount
-                    currencyCode
-                  }
-                }
-              }
-            }
-            pageInfo {
-              endCursor
-              hasNextPage
-              hasPreviousPage
-              startCursor
-            }
-          }
+          ${CART_QUERY_OPTIONS}
         }
         userErrors {
           field
@@ -367,11 +336,6 @@ export const removeFromCart = async (lineId: string): Promise<Cart> => {
     throw new Error(`No checkout url provided`);
   if (!responseBody?.data?.cartLinesRemove?.cart?.id)
     throw new Error(`No cart ID provided`);
-
-  localStorage.setItem(
-    "cartQty",
-    responseBody.data.cartLinesRemove.cart.totalQuantity.toString()
-  );
 
   return responseBody.data.cartLinesRemove.cart;
 };
@@ -430,30 +394,7 @@ export const addToCart = async (merchandiseId: string): Promise<Cart> => {
     mutation  {
       cartLinesAdd(lines: {merchandiseId: "${merchandiseId}"}, cartId: "${cartId}") {
         cart {
-          id
-          updatedAt
-          createdAt
-          totalQuantity
-          checkoutUrl
-          buyerIdentity {
-            customer {
-              id
-            }
-          }
-          cost {
-            subtotalAmount {
-              amount
-              currencyCode
-            }
-            totalTaxAmount {
-              amount
-              currencyCode
-            }
-            totalAmount {
-              amount
-              currencyCode
-            }
-          }
+          ${CART_QUERY_OPTIONS}
         }
         userErrors {
           field
@@ -486,10 +427,6 @@ export const addToCart = async (merchandiseId: string): Promise<Cart> => {
   if (!responseBody?.data?.cartLinesAdd?.cart?.id)
     throw new Error(`No cart ID provided`);
 
-  localStorage.setItem(
-    "cartQty",
-    responseBody.data.cartLinesAdd.cart.totalQuantity.toString()
-  );
   return responseBody?.data?.cartLinesAdd.cart;
 };
 
@@ -505,73 +442,7 @@ export const getCart = async (givenCartId?: string): Promise<Cart> => {
   const query = `
     query {
       cart(id: "${cartId}") {
-        buyerIdentity {
-          countryCode
-          customer {
-            email
-            displayName
-            id
-          }
-        }
-        checkoutUrl
-        updatedAt
-        totalQuantity
-        id
-        cost {
-          subtotalAmount {
-            amount
-            currencyCode
-          }
-          totalAmount {
-            amount
-            currencyCode
-          }
-          totalTaxAmount {
-            amount
-            currencyCode
-          }
-        }
-        createdAt
-        lines(first: 100) {
-          nodes {
-            cost {
-              totalAmount {
-                amount
-                currencyCode
-              }
-            }
-            id
-            merchandise {
-              ... on ProductVariant {
-                id
-                product {
-                  description
-                  featuredImage {
-                    altText
-                    id
-                    url(transform: {maxHeight: 400, maxWidth: 400})
-                  }
-                  handle
-                  id
-                  productType
-                  title
-                }
-                availableForSale
-                currentlyNotInStock
-                price {
-                  amount
-                  currencyCode
-                }
-              }
-            }
-          }
-          pageInfo {
-            endCursor
-            hasNextPage
-            hasPreviousPage
-            startCursor
-          }
-        }
+        ${CART_QUERY_OPTIONS}
       }
     }
   `;
@@ -586,11 +457,6 @@ export const getCart = async (givenCartId?: string): Promise<Cart> => {
       Failed to fetch cart.`
     );
   }
-
-  localStorage.setItem(
-    "cartQty",
-    responseBody.data.cart.totalQuantity.toString()
-  );
 
   return responseBody.data.cart;
 };
@@ -630,10 +496,39 @@ export const getProduct = async (productId?: string, handle?: boolean) => {
     throw new Error(
       `
       Failed to fetch product.
-      [${response.status}]: ${responseBody}
+      [${response.status}]: ${JSON.stringify(responseBody)}
       `
     );
   }
 
   return responseBody.data.product;
+};
+
+export const getProductTypes = async (): Promise<string[]> => {
+  const query = `
+  query {
+    productTypes(first: 100) {
+      edges {
+        node
+      }
+    }
+  }`;
+
+  const response = await shopifyFetch(query);
+  const responseBody: any = await response.json();
+
+  if (responseBody.errors) {
+    throw new Error(`
+      Failed to fetch product types.
+      [${response.status}]: ${response.statusText}
+      ${responseBody.errors}
+    `);
+  }
+
+  var productTypes: string[] = [];
+  responseBody.data.productTypes.edges.forEach((productType: any) =>
+    productTypes.push(productType.node)
+  );
+
+  return productTypes;
 };

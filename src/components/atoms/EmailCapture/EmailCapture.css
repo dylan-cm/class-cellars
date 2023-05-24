@@ -14,7 +14,7 @@
   border: 3px solid var(--brand-lm-10-mid);
   border-radius: 10px 0px 0px 10px;
 
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 18px;
   color: var(--lm-text);
@@ -38,9 +38,9 @@
   border-radius: 0px 10px 10px 0px;
 
   color: var(--lm-text-alt);
-  font-family: "Lilita One";
+  font-family: "Jost", sans-serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 18px;
   text-align: center;
 

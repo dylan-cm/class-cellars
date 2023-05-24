@@ -1,5 +1,5 @@
 .About {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   width: 100%;
   color: white;
   box-sizing: border-box;
@@ -79,16 +79,16 @@ div.BarrelGradient {
 }
 
 .Title {
-  font-family: "Shrikhand", cursive;
-  font-size: 60px;
+  font-family: "Jost", sans-serif;
+  font-size: 64px;
   line-height: 58px;
   letter-spacing: 1px;
 
   margin: 0px;
 
   position: relative;
-  top: 252px;
-  left: 76px;
+  top: 240px;
+  left: 100px;
 }
 
 .Refined {
@@ -112,7 +112,7 @@ div.BarrelGradient {
 }
 
 .About h2 {
-  font-family: "Shrikhand", cursive;
+  font-family: "Jost", sans-serif;
   line-height: 26px;
   font-size: 20px;
   text-align: center;
@@ -174,7 +174,7 @@ p.Blurb {
   }
 
   .Title {
-    font-family: "Shrikhand", cursive;
+    font-family: "Jost", sans-serif;
     font-size: 48px;
     line-height: 48px;
     letter-spacing: 1px;

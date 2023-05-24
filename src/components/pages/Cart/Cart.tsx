@@ -1,47 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Cart.css";
-import { useFetchCart } from "../../../functions/hooks";
-import LoadingDisplay from "../../../functions/LoadingDisplay";
+import LoadingDisplay from "../../atoms/LoadingDisplay";
 import EmptyCart from "../../molecules/EmptyCart/EmptyCart";
 import ErrorDisplay from "../../molecules/ErrorDisplay/ErrorDisplay";
-import { formatMoney } from "../../../functions/utilities";
-import { removeFromCart } from "../../../functions/actions";
+import { defaultImage, formatMoney } from "../../../functions/utilities";
 import { BeatLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../../functions/contextProviders";
+import { MdOutlineOpenInNew } from "react-icons/md";
 
 interface CartProps {}
 
-const PLACEHOLDER_THUMBNAIL =
-  "https://placeholder.pics/svg/400x480/A6323B-4F0B41/FFFFFF-000000";
-
 const Cart = ({ ...props }: CartProps) => {
-  const { fetchedCart, isFetching, error } = useFetchCart();
-  const [cart, setCart] = useState<Cart | undefined>();
-  const [loading, setLoading] = useState<string | undefined>();
+  const cartContext = useContext(CartContext);
+  const [cart, setCart] = useState<Cart | undefined>(undefined);
 
-  useEffect(() => setCart(fetchedCart), [fetchedCart]);
+  useEffect(() => {
+    setCart(cartContext.cart);
+  }, [cartContext.cart]);
 
-  if (isFetching) {
+  const navigate = useNavigate();
+
+  if (!cart) {
     return <LoadingDisplay />; // Use Loading component
   }
 
-  if (error) {
-    return <ErrorDisplay message={error.message} />; // Use Error component
+  if (cartContext.error) {
+    return <ErrorDisplay message={cartContext.error.message} />; // Use Error component
   }
 
-  if (!cart || cart.totalQuantity === 0) {
+  if (cartContext.cartQuantity === 0) {
     return <EmptyCart />; // Use EmptyCart component
   }
 
-  const handleRemoveFromCart = async (lineId: string) => {
-    setLoading(lineId);
-    if (loading) return;
-    const updatedCart = await removeFromCart(lineId);
-    setLoading(undefined);
-    setCart(updatedCart);
+  const handleRemoveFromCart = async (
+    lineId: string,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    if (cartContext.removing) return;
+    cartContext.removeFromCart(lineId);
   };
 
   const goToCheckout = () => {
-    console.log("gotocheckout");
+    const checkoutUrl = localStorage.getItem("checkoutUrl");
+    if (!checkoutUrl) return;
+    window.location.href = checkoutUrl;
   };
 
   return (
@@ -52,9 +56,10 @@ const Cart = ({ ...props }: CartProps) => {
           <h6>Wonderful additions to your collection await!</h6>
         </div>
         <div className="Overview">
-          <h3>Subtotal: $500.00</h3>
+          <h3>{`Subtotal: ${formatMoney(cart.cost.subtotalAmount)}`}</h3>
           <div className="CheckoutButton" onClick={() => goToCheckout()}>
             Checkout
+            <MdOutlineOpenInNew />
           </div>
         </div>
       </div>
@@ -62,12 +67,18 @@ const Cart = ({ ...props }: CartProps) => {
         {cart?.lines?.nodes.map((node) => {
           const lineId = node.id;
           return (
-            <div key={node.merchandise.id} className="CartItem">
+            <div
+              key={node.merchandise.id}
+              className="CartItem"
+              onClick={() =>
+                navigate(`/cart/${node.merchandise.product?.handle}`)
+              }
+            >
               <div className="Left">
                 <img
                   src={
                     node.merchandise.product?.featuredImage?.url ||
-                    PLACEHOLDER_THUMBNAIL
+                    defaultImage(node.merchandise.product?.productType || "")
                   }
                   alt={
                     node.merchandise.product?.featuredImage?.altText ||
@@ -84,15 +95,13 @@ const Cart = ({ ...props }: CartProps) => {
                   })}
                 </p>
                 <button
-                  onClick={() => handleRemoveFromCart(lineId)}
-                  className={loading === lineId ? "RemoveLoading" : ""}
+                  onClick={(e) => handleRemoveFromCart(lineId, e)}
+                  className={
+                    lineId === cartContext.removing ? "RemoveLoading" : ""
+                  }
                 >
-                  {loading === lineId ? (
-                    <BeatLoader
-                      size={8}
-                      color={"#ffffff"}
-                      loading={loading === lineId}
-                    />
+                  {lineId === cartContext.removing ? (
+                    <BeatLoader size={8} color={"#ffffff"} loading={true} />
                   ) : (
                     "Remove"
                   )}

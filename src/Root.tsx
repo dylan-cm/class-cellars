@@ -4,6 +4,7 @@ import Navbar from "./components/organisms/Navbar/Navbar";
 import SideMenu from "./components/organisms/SideMenu/SideMenu";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./App.css";
+import { CartProvider } from "./functions/contextProviders";
 
 interface RootProps {}
 
@@ -13,21 +14,27 @@ const Root = ({ ...props }: RootProps) => {
   const handleSideMenu = () => {
     setShowSideMenu(!showSideMenu);
   };
+
   return (
     <HelmetProvider>
       <Helmet>
         <style>
           @import
-          url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@400;700&family=Lilita+One&family=Roboto+Condensed:wght@400;700&family=Fugaz+One&display=swap');
+          url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,400;0,500;0,700;0,900;1,600;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,400;1,900&display=swap');
         </style>
       </Helmet>
-      <div className="Root">
-        <SideMenu handleSideMenu={handleSideMenu} showSideMenu={showSideMenu} />
-        <div className={showSideMenu ? "App Blurred" : "App"}>
-          <Navbar handleSideMenu={handleSideMenu} />
-          <Outlet />
+      <CartProvider>
+        <div className="Root">
+          <SideMenu
+            handleSideMenu={handleSideMenu}
+            showSideMenu={showSideMenu}
+          />
+          <div className={showSideMenu ? "App Blurred" : "App"}>
+            <Navbar handleSideMenu={handleSideMenu} />
+            <Outlet />
+          </div>
         </div>
-      </div>
+      </CartProvider>
     </HelmetProvider>
   );
 };

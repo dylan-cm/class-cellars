@@ -1,0 +1,79 @@
+.GridOptions {
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ChipRow {
+  position: sticky;
+  width: 100vw;
+  max-width: 1200px;
+  padding: 10px 16px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  border-radius: 10px;
+}
+
+.ChipRow::-webkit-scrollbar {
+  display: none;
+}
+
+.Chip {
+  font-size: 14px;
+  background: white;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px inset rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  user-select: none;
+  cursor: pointer;
+}
+
+.ActiveChip {
+  background: var(--brand-lm-10-lit);
+  color: white;
+}
+
+.Sort {
+  padding-left: 16px;
+  font-size: 14px;
+}
+
+.Sort > select {
+  font-size: 14px;
+  background: white;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px inset rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  user-select: none;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+@media screen and (min-width: 1220px) {
+  .ChipRow.LeftShadow {
+    box-shadow: 2px 0 2px -2px rgba(0, 0, 0, 0.55) inset;
+  }
+  .ChipRow.RightShadow {
+    box-shadow: -2px 0 2px -2px rgba(0, 0, 0, 0.55) inset;
+  }
+  .ChipRow.LeftShadow.RightShadow {
+    box-shadow: 2px 0 2px -2px rgba(0, 0, 0, 0.55) inset,
+      -2px 0 2px -2px rgba(0, 0, 0, 0.55) inset;
+  }
+}

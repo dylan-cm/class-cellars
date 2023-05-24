@@ -1,0 +1,49 @@
+.ProductsPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 76px);
+
+  font-family: "Roboto", sans-serif;
+  background: white;
+  overflow: hidden;
+}
+
+.ProductsPageWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.TitleArea {
+  width: 100%;
+  padding: 16px;
+  padding-top: 48px;
+  box-sizing: border-box;
+}
+
+.TitleArea > h1 {
+  margin: 0px;
+}
+
+.TitleArea > h6 {
+  color: gray;
+  font-size: 14px;
+  font-weight: 300;
+  margin: 8px 0px 16px 0px;
+}
+
+.TitleArea > .Line {
+  max-width: 240px;
+  width: 100%;
+  height: 1px;
+  background: black;
+  box-sizing: border-box;
+}

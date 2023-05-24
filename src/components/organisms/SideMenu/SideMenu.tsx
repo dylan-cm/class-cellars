@@ -32,10 +32,7 @@ const SideMenu = ({ showSideMenu, handleSideMenu }: SideMenuProps) => {
         <div className="SideMenuLink" onClick={() => handleNavigate("/")}>
           Home
         </div>
-        <div
-          className="SideMenuLink"
-          onClick={() => handleNavigate("/products")}
-        >
+        <div className="SideMenuLink" onClick={() => handleNavigate("/cellar")}>
           Cellar
         </div>
         <div
