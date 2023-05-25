@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./SideMenu.css";
 import { useNavigate } from "react-router-dom";
 import { MdClose, MdShoppingCart } from "react-icons/md";
+import { CartContext } from "../../../functions/contextProviders";
 
 // Side Menu Component
 interface SideMenuProps {
@@ -9,12 +10,13 @@ interface SideMenuProps {
   handleSideMenu: () => void;
 }
 const SideMenu = ({ showSideMenu, handleSideMenu }: SideMenuProps) => {
-  const localQty = Number(localStorage.getItem("cartQty")) || 0;
-  const [cartQty, setCartQty] = useState(localQty);
+  const { cartQuantity } = useContext(CartContext);
+  const [cartQty, setCartQty] = useState(0);
   const navigate = useNavigate();
+
   useEffect(() => {
-    setCartQty(localQty);
-  }, [localQty]);
+    setCartQty(cartQuantity);
+  }, [cartQuantity]);
   const handleNavigate = (path: string) => {
     navigate(path);
     handleSideMenu();
