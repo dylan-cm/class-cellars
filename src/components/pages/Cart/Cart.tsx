@@ -18,7 +18,6 @@ const Cart = ({ ...props }: CartProps) => {
   useEffect(() => {
     setCart(cartContext.cart);
   }, [cartContext.cart]);
-
   const navigate = useNavigate();
 
   if (!cart) {
