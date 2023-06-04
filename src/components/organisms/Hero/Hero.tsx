@@ -43,19 +43,10 @@ const Hero = ({ ...props }: HeroProps) => {
             Experience a collection of wines expertly curated for your reliance
             on their premium provenance.
           </h1>
-          <h3>
-            {
-              "Classified Cellars offers a rare selection of the most sought after wines from the premium wine producing regions of the world. "
-            }
-            <strong>
-              Every bottle selected for its provenance and its prestige among
-              high end wine collectors.
-            </strong>
-          </h3>
           <div className="CaptureWrapper">
             <h2>
-              You're invited to sign up for our mailing list and get our
-              classified offers as soon as they are available!
+              We invite you to sign up for our mailing list to assure your
+              receiving our exclusive offers.
             </h2>
             <HashLink to="/#newsletter" smooth onClick={focusInput}>
               <div className="JoinButton">Get Insider Access</div>
