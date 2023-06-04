@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import "./Hero.css";
 import { ReactComponent as Blobs } from "../../../assets/wine_stains.svg";
-// import { ReactComponent as Blobs } from "../../../assets/wine_stains_dark.svg";
-import EmailCapture from "../../atoms/EmailCapture/EmailCapture";
 import { useLocation } from "react-router-dom";
-import HeroImage from "../../../assets/hero_image.jpg";
 import { HashLink } from "react-router-hash-link";
 
 interface HeroProps {}
