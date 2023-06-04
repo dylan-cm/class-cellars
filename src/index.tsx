@@ -34,6 +34,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: suspenseful(<Root />),
+    errorElement: <NotFound />,
     children: [
       {
         path: "",
@@ -55,10 +56,6 @@ const router = createBrowserRouter([
       {
         path: "/cellar/:productHandle",
         element: suspenseful(<ProductDetailPage back="cellar" />),
-      },
-      {
-        path: "*",
-        element: suspenseful(<NotFound />),
       },
     ],
   },
