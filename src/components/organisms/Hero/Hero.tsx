@@ -37,7 +37,7 @@ const Hero = ({ ...props }: HeroProps) => {
         </div>
         <div className="HeroRightContent">
           <h1>
-            Experience a collection of wines expertly curated for your reliance
+            Experience a collection of wines curated expressly for your reliance
             on their premium provenance.
           </h1>
           <div className="CaptureWrapper">
