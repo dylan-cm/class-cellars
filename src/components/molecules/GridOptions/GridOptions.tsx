@@ -1,26 +1,69 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./GridOptions.css";
-import { getProductTypes } from "../../../functions/actions";
-import { ProductSortKeys } from "../../../global.d";
-import { BeatLoader } from "react-spinners";
+import {
+  SearchBox,
+  SortBy,
+  useRefinementList,
+} from "react-instantsearch-hooks-web";
+import { MdSearch } from "react-icons/md";
 
-interface GridOptionsProps {
-  filterProducts: (props: {
-    productType?: string;
-    sortKey?: ProductSortKeys;
-    reverse?: boolean;
-  }) => void;
+interface GridOptionsProps {}
+
+const GridOptions = ({ ...props }: GridOptionsProps) => {
+  return (
+    <div className="GridOptions">
+      <SearchBox
+        placeholder="Search wines, regions, grapes, vintages..."
+        classNames={{
+          input: "SearchBoxInput",
+          submit: "SearchButton",
+          reset: "SearchButton",
+          root: "SearchBox",
+          form: "SearchBoxForm",
+        }}
+        submitIconComponent={() => <MdSearch color="#aaa" size={20} />}
+      />
+      <ChipRow attribute={"product_type"} label="Types" />
+      <ChipRow attribute={"meta.custom.grapes"} label="Grapes" />
+      <ChipRow attribute={"meta.custom.region"} label="Regions" />
+      <SortBy
+        className="Sort"
+        items={[
+          {
+            label: "Featured",
+            value: "shopify_products",
+          },
+          {
+            label: "Vintage (Oldest First)",
+            value: "shopify_products_vintage_asc",
+          },
+          {
+            label: "Vintage (Youngest First)",
+            value: "shopify_products_vintage_desc",
+          },
+          {
+            label: "Price (Low to High)",
+            value: "shopify_products_price_asc",
+          },
+          {
+            label: "Price (High to Low)",
+            value: "shopify_products_price_desc",
+          },
+        ]}
+      />
+    </div>
+  );
+};
+
+export default GridOptions;
+
+interface ChipRowProps {
+  attribute: string;
+  label: string;
 }
 
-const GridOptions = ({ filterProducts, ...props }: GridOptionsProps) => {
-  const [sort, setSort] = useState<string>();
-  const [chips, setChips] = useState<(string | undefined)[]>([]);
-  const [selectedProductType, setSelectedProductType] = useState<
-    string | undefined
-  >();
-  const [loadingChips, setLoadingChips] = useState(true);
-
-  /* #region scrolling */
+const ChipRow = ({ attribute, label }: ChipRowProps) => {
+  const filter = useRefinementList({ attribute: attribute });
   const ref = useRef<HTMLDivElement | null>(null);
   const [shadow, setShadow] = useState({ left: false, right: true });
   const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
@@ -64,100 +107,41 @@ const GridOptions = ({ filterProducts, ...props }: GridOptionsProps) => {
     if (shadow.right) shadowClass += " RightShadow ";
     return shadowClass;
   };
-  /* #endregion */
-
-  useEffect(() => {
-    const initFetch = async () => {
-      setLoadingChips(true);
-      const productTypes = await getProductTypes();
-      setChips([undefined, ...productTypes]);
-      setLoadingChips(false);
-    };
-    initFetch();
-  }, []);
-
-  const handleSort = (sortString: string) => {
-    if (sortString === sort) return;
-    const parsed = parseSortString(sortString);
-    filterProducts({
-      productType: selectedProductType,
-      sortKey: parsed?.sortKey,
-      reverse: parsed?.reverse,
-    });
-    setSort(sortString);
-  };
-
-  const handleChip = (chipLabel?: string) => {
-    if (selectedProductType === chipLabel) return;
-    filterProducts({
-      productType: chipLabel,
-      sortKey: parseSortString(sort)?.sortKey,
-      reverse: parseSortString(sort)?.reverse,
-    });
-    setSelectedProductType(chipLabel);
-  };
-
-  function parseSortString(sortString?: string):
-    | {
-        sortKey: ProductSortKeys;
-        reverse: boolean;
-      }
-    | undefined {
-    if (!sortString) return;
-    const parts = sortString.split("/");
-    const sortKey = parts[0] as ProductSortKeys;
-    const reverse = parts.length > 1 && parts[1] === "reverse";
-
-    if (Object.values(ProductSortKeys).includes(sortKey)) {
-      return {
-        sortKey,
-        reverse,
-      };
-    } else {
-      return;
-    }
-  }
 
   return (
-    <div className="GridOptions">
+    <div
+      className={"ChipRow" + handleShadow()}
+      onWheel={handleScroll}
+      ref={ref}
+    >
       <div
-        className={"ChipRow" + handleShadow()}
-        onWheel={handleScroll}
-        ref={ref}
+        className={
+          !filter.items.find((item) => item.isRefined === true)
+            ? "Chip ActiveChip"
+            : "Chip"
+        }
+        onClick={() => {
+          filter.items.forEach((item) => {
+            if (item.isRefined) filter.refine(item.value);
+          });
+        }}
       >
-        {!loadingChips ? (
-          chips.map((chipLabel, i) => (
-            <div
-              key={"filter:" + chipLabel + i}
-              className={
-                selectedProductType === chipLabel ? "Chip ActiveChip" : "Chip"
-              }
-              onClick={() => {
-                handleChip(chipLabel);
-              }}
-            >
-              {i === 0 ? "View All" : chipLabel}
-            </div>
-          ))
-        ) : (
-          <BeatLoader size={8} color={"#cb002d"} />
-        )}
+        All {label}
       </div>
-      <div className="Sort">
-        <span>{"Sort:"}</span>
-        <select value={sort} onChange={(e) => handleSort(e.target.value)}>
-          <option value={undefined}>Default</option>
-          <option value={ProductSortKeys.CREATED_AT}>Newest Arrivals</option>
-          <option value={ProductSortKeys.PRICE + "/reverse"}>
-            Price High to Low
-          </option>
-          <option value={ProductSortKeys.PRICE}>Price Low to High</option>
-          <option value={ProductSortKeys.TITLE}>A to Z</option>
-          <option value={ProductSortKeys.TITLE + "/reverse"}>Z to A</option>
-        </select>
-      </div>
+      {filter.items
+        .sort((a, b) => {
+          if (a.isRefined === b.isRefined) return 0;
+          return a.isRefined ? -1 : 1; // if a's attribute is true, move it ahead
+        })
+        .map((item) => (
+          <div
+            key={"filter:" + item.value + label}
+            className={item.isRefined ? "Chip ActiveChip" : "Chip"}
+            onClick={() => filter.refine(item.value)}
+          >
+            {item.label} <div className="FilterCount">{item.count}</div>
+          </div>
+        ))}
     </div>
   );
 };
-
-export default GridOptions;

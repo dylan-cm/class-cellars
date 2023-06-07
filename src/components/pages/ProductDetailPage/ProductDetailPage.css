@@ -123,3 +123,50 @@ h3 {
     max-width: 240px;
   }
 }
+
+.ProductDetailPage .AddToCart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  margin-top: 4px;
+  background-color: var(--brand-lm-10-mid);
+  color: white;
+  border-radius: 4px;
+  width: 80%;
+  align-self: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ProductDetailPage .CartCounter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px;
+}
+
+.ProductDetailPage .CartInteract {
+  border-radius: 100%;
+  width: 24px;
+  height: 24px;
+  color: var(--brand-lm-10-mid);
+  cursor: pointer;
+}
+
+.ProductDetailPage .CartInteract:hover {
+  color: var(--brand-lm-10-lit);
+}
+
+.ProductDetailPage .CartModifier {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 200px;
+  align-self: center;
+}

@@ -3,10 +3,16 @@ import "./ProductDetailPage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProduct } from "../../../functions/actions";
 import { defaultImage, formatMoney } from "../../../functions/utilities";
-import { MdAddShoppingCart, MdArrowBack } from "react-icons/md";
+import {
+  MdAddCircleOutline,
+  MdAddShoppingCart,
+  MdArrowBack,
+  MdRemoveCircleOutline,
+} from "react-icons/md";
 import { CartContext } from "../../../functions/contextProviders";
 import LoadingDisplay from "../../atoms/LoadingDisplay";
 import ErrorDisplay from "../../molecules/ErrorDisplay/ErrorDisplay";
+import { TiDeleteOutline } from "react-icons/ti";
 
 interface ProductDetailPageProps {
   back: string;
@@ -16,7 +22,7 @@ const ProductDetailPage = ({ ...props }: ProductDetailPageProps) => {
   const { productHandle } = useParams<{
     productHandle: string;
   }>();
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, removeFromCart, amountInCart } = useContext(CartContext);
   const [product, setProduct] = useState<Product | undefined>();
   const [error, setError] = useState<string | undefined>();
   const navigate = useNavigate();
@@ -38,6 +44,10 @@ const ProductDetailPage = ({ ...props }: ProductDetailPageProps) => {
     addToCart(variantId);
   };
 
+  const handleRemove = async (variantId: string) => {
+    removeFromCart(variantId);
+  };
+
   const goBack = () => {
     navigate(`/${props.back}`);
   };
@@ -51,6 +61,9 @@ const ProductDetailPage = ({ ...props }: ProductDetailPageProps) => {
   }
 
   const variant = product.variants.nodes[0];
+  const regexArr = variant.id.match(/\d+$/);
+  const merchandiseId = regexArr ? regexArr[0] : "";
+  const qty = amountInCart(merchandiseId);
   return (
     <div className="ProductDetailPage">
       <div className="InteractiveRow">
@@ -66,21 +79,64 @@ const ProductDetailPage = ({ ...props }: ProductDetailPageProps) => {
         />
         <div className="Details">
           <h1>{product.title}</h1>
-          <p>{product.productType}</p>
-          <p>{product.description}</p>
-          <div className="DetailsBottom">
-            <div className="PriceOfProduct">
-              {formatMoney({
-                amount: variant.price.amount,
-                currencyCode: variant.price.currencyCode,
-              })}
-            </div>
-            <div
-              className="DetailsCartAddButton"
-              onClick={() => handleAdd(variant.id)}
-            >
-              <MdAddShoppingCart color="white" size={24} /> Add to Cart
-            </div>
+          <p>{`Type: ${product.productType}`}</p>
+          {product.metafields?.map((metafield, i) => {
+            if (metafield)
+              return (
+                <p key={metafield.key + metafield.value}>
+                  {metafield.key === "package"
+                    ? Number(metafield.value) > 1
+                      ? `Package: Crate of ${metafield.value}`
+                      : `Package: ${metafield.value} Bottle`
+                    : `${
+                        metafield.key.charAt(0).toUpperCase() +
+                        metafield.key.slice(1)
+                      }: ${metafield.value}`}
+                </p>
+              );
+            else return <div key={"empty_meta" + i}></div>;
+          })}
+          <p>{`Quantity Available: ${variant.quantityAvailable}`}</p>
+          <p>
+            {`Price: ${formatMoney({
+              amount: variant.price.amount,
+              currencyCode: variant.price.currencyCode,
+            })}`}
+          </p>
+          <div className="CartModifier">
+            {qty <= 0 ? (
+              <div
+                className="AddToCart"
+                onClick={() => handleAdd(merchandiseId)}
+              >
+                Add to Cart
+                <MdAddShoppingCart />
+              </div>
+            ) : (
+              <div className="CartCounter">
+                {qty === 1 ? (
+                  <TiDeleteOutline
+                    className="CartInteract"
+                    onClick={() => handleRemove(merchandiseId)}
+                  />
+                ) : (
+                  <MdRemoveCircleOutline
+                    className="CartInteract"
+                    onClick={() => handleRemove(merchandiseId)}
+                  />
+                )}
+                <div className="AmtInCart">{qty}</div>
+                <MdAddCircleOutline
+                  className="CartInteract"
+                  color={qty >= variant.quantityAvailable ? "#aaa" : ""}
+                  onClick={() =>
+                    qty >= variant.quantityAvailable
+                      ? undefined
+                      : handleAdd(merchandiseId)
+                  }
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

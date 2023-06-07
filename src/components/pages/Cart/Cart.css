@@ -147,3 +147,48 @@ button.RemoveLoading {
 .Cart h3 {
   margin: 0;
 }
+
+.Cart .AddToCart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 12px;
+  margin-top: 4px;
+  background-color: var(--brand-lm-10-mid);
+  color: white;
+  border-radius: 4px;
+  width: 80%;
+  align-self: center;
+  font-size: 14px;
+}
+
+.Cart .CartCounter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px;
+}
+
+.Cart .CartInteract {
+  border-radius: 100%;
+  width: 24px;
+  height: 24px;
+  color: var(--brand-lm-10-mid);
+}
+
+.Cart .CartInteract:hover {
+  color: var(--brand-lm-10-lit);
+}
+
+.Cart .CartModifier {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 200px;
+  min-width: 100px;
+}

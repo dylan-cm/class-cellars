@@ -45,80 +45,17 @@ export const formatMoney = (price: Money, round: boolean = false): string => {
   return formatter.format(numberAmount);
 };
 
-export const parseVolumes = (input: string): string => {
-  // Regular expression to match volume measures in the string (milliliters and liters)
-  const volumeRegex = /(\d+(\.\d+)?)(\s?)(ml|L)/g;
-
-  let match;
-  let volumes = [];
-  while ((match = volumeRegex.exec(input)) !== null) {
-    let [, volume, , , unit] = match;
-
-    // Convert to liters if necessary
-    if (unit === "ml" && Number(volume) >= 1000) {
-      volume = (Number(volume) / 1000).toString();
-      unit = "L";
-    }
-
-    // Only include the decimal point and trailing zeros if necessary
-    if (volume.endsWith(".0")) {
-      volume = volume.slice(0, -2);
-    }
-
-    volumes.push(volume + unit);
-  }
-
-  return volumes.join(", ");
+export const parseVolumes = (volume: number): string => {
+  if (volume < 0) return "0ml";
+  else if (volume < 1000) return `${volume}ml`;
+  else return `${Math.round((volume / 1000 + Number.EPSILON) * 100) / 100}L`;
 };
 
-export const defaultImage = (wineType: string) => {
-  const wineTypeMap: any = {
-    Aligoté: "White",
-    Boal: "White",
-    "Cabernet Franc": "Red",
-    "Cabernet Sauvignon": "Red",
-    "Cabernet-Shiraz Blend": "Red",
-    "Champagne Blend": "Champagne",
-    Chardonnay: "White",
-    Cinsault: "Red",
-    "Corvina Blend": "Red",
-    Gamay: "Red",
-    "Gamay-Pinot Noir Blend": "Red",
-    Grenache: "Red",
-    "Grenache Blend": "Red",
-    "Grüner Veltliner": "White",
-    Malbec: "Red",
-    Merlot: "Red",
-    Nebbiolo: "Red",
-    "Nerello Blend": "Red",
-    "Petit Verdot": "Red",
-    "Pinot Meunier": "Red",
-    "Pinot Noir": "Red",
-    "Port Blend": "Red",
-    "Red Blend": "Red",
-    "Red Bordeaux Blend": "Red",
-    "Red Rhone Blend": "Red",
-    Riesling: "White",
-    "Rosé Blend": "Rosé",
-    Sagrantino: "Red",
-    "Sauvignon Blanc": "White",
-    Shiraz: "Red",
-    "SuperTuscan Blend": "Red",
-    Syrah: "Red",
-    "Syrah Blend": "Red",
-    Sémillon: "White",
-    "Sémillon-Sauvignon Blanc Blend": "White",
-    "Tempranillo Blend": "Red",
-    Viognier: "White",
-    "White Blend": "White",
-    "White Rhone Blend": "White",
-    Zinfandel: "Red",
-  };
-  const color = wineTypeMap[wineType];
-  switch (color) {
+export const defaultImage = (type: string) => {
+  switch (type) {
     case "Red":
       return RedBottle;
-    case "Champagne":
+    case "Sparkling":
       return ChampBottle;
     case "White":
       return WhiteBottle;
@@ -126,3 +63,12 @@ export const defaultImage = (wineType: string) => {
       return BurgBottle;
   }
 };
+
+export const formatPackage = (count?: number) => {
+  if (!count) return "";
+  if (count > 1) return `${count}-pack`;
+  return "";
+};
+
+export const formatMerchId = (id: string) =>
+  `gid://shopify/ProductVariant/${id}`;

@@ -39,6 +39,7 @@ lines(first: 100) {
       }
     }
     id
+    quantity
     merchandise {
       ... on ProductVariant {
         id
@@ -53,9 +54,11 @@ lines(first: 100) {
           id
           productType
           title
+          totalInventory
         }
         availableForSale
         currentlyNotInStock
+        quantityAvailable
         price {
           amount
           currencyCode
@@ -152,7 +155,6 @@ export const fetchProducts = async ({
     };
     errors: any[];
   } = await response.json();
-  // console.log("responseBody", responseBody);
 
   if (responseBody.errors) {
     throw new Error(`
@@ -422,8 +424,9 @@ export const addToCart = async (merchandiseId: string): Promise<Cart> => {
     throw new Error(
       `api error: ${responseBody?.data?.cartLinesAdd?.userErrors}`
     );
-  if (!responseBody?.data?.cartLinesAdd?.cart?.checkoutUrl)
+  if (!responseBody?.data?.cartLinesAdd?.cart?.checkoutUrl) {
     throw new Error(`No checkout url provided`);
+  }
   if (!responseBody?.data?.cartLinesAdd?.cart?.id)
     throw new Error(`No cart ID provided`);
 
@@ -465,6 +468,10 @@ export const getProduct = async (productId?: string, handle?: boolean) => {
   const query = `
     query {
       product(${handle ? "handle" : "id"}: "${productId}") {
+        metafields(identifiers: [{namespace: "custom", key: "region"}, {namespace: "custom", key: "grapes"}, {namespace: "custom", key: "year"}, {namespace: "custom", key: "volume"}, {namespace: "custom", key:"package"}]) {
+          value
+          key
+        }
         handle
         title
         id
@@ -531,4 +538,53 @@ export const getProductTypes = async (): Promise<string[]> => {
   );
 
   return productTypes;
+};
+
+export const updateCartLine = async (
+  lineId: string,
+  quantity: number
+): Promise<Cart> => {
+  var cartId = localStorage.getItem("cartId");
+  if (!cartId) {
+    throw new Error("No cart exists. Cannot Remove item");
+  }
+
+  const query = `
+    mutation  {
+      cartLinesUpdate(cartId: "${cartId}", lines: {id: "${lineId}", quantity: ${quantity}}) {
+        cart {
+          ${CART_QUERY_OPTIONS}
+        }
+        userErrors {
+          field
+          message
+          code
+        }
+      }
+    }
+  `;
+
+  const response = await shopifyFetch(query);
+  const responseBody: {
+    data: { cartLinesUpdate: { cart: Cart; userErrors: ShopifyErr[] } };
+    errors: any[];
+  } = await response.json();
+
+  if (!responseBody?.data)
+    throw new Error(
+      `request error: 
+      response:${JSON.stringify(response)}
+      responseBody: ${JSON.stringify(responseBody.errors)}
+      `
+    );
+  if (responseBody?.data?.cartLinesUpdate?.userErrors.length > 0)
+    throw new Error(
+      `api error: ${responseBody?.data?.cartLinesUpdate?.userErrors}`
+    );
+  if (!responseBody?.data?.cartLinesUpdate?.cart?.checkoutUrl)
+    throw new Error(`No checkout url provided`);
+  if (!responseBody?.data?.cartLinesUpdate?.cart?.id)
+    throw new Error(`No cart ID provided`);
+
+  return responseBody.data.cartLinesUpdate.cart;
 };

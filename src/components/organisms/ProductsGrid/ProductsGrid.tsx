@@ -3,39 +3,54 @@ import "./ProductsGrid.css";
 import {
   defaultImage,
   formatMoney,
+  formatPackage,
   parseVolumes,
   truncate,
 } from "../../../functions/utilities";
 import { useNavigate } from "react-router-dom";
-import { MdAddShoppingCart, MdCheck } from "react-icons/md";
+import {
+  MdAddCircleOutline,
+  MdAddShoppingCart,
+  MdRemoveCircleOutline,
+} from "react-icons/md";
+import { TiDeleteOutline } from "react-icons/ti";
 import LoadingDisplay from "../../atoms/LoadingDisplay";
 import { CartContext } from "../../../functions/contextProviders";
-import { BeatLoader } from "react-spinners";
+import { usePagination } from "react-instantsearch-hooks-web";
 
 interface ProductsGridProps {
-  products: Product[];
-  next?: () => {};
-  back?: () => {};
+  hits: Hit[];
   loading?: boolean;
 }
 
-const ProductsGrid = ({ products, next, back, loading }: ProductsGridProps) => {
+const ProductsGrid = ({ hits, loading }: ProductsGridProps) => {
   const navigate = useNavigate();
-  const { addToCart, adding, isInCart, removeFromCart, removing } =
-    useContext(CartContext);
+  const { addToCart, removeFromCart, amountInCart } = useContext(CartContext);
+  const { isFirstPage, isLastPage, currentRefinement, refine } =
+    usePagination();
 
   const selectProduct = (handle: string) => {
     navigate(`/cellar/${handle}`);
   };
 
-  const handleAdd = async (e: React.MouseEvent<any>, variantId: string) => {
+  const handleAdd = async (e: React.MouseEvent<any>, id: string) => {
     e.stopPropagation();
-    const line = isInCart(variantId);
-    if (line) {
-      removeFromCart(line);
-      return;
-    }
-    addToCart(variantId);
+    addToCart(id);
+  };
+
+  const handleRemove = async (e: React.MouseEvent<any>, id: string) => {
+    e.stopPropagation();
+    removeFromCart(id);
+  };
+
+  const loadNextProducts = async () => {
+    if (isLastPage) return;
+    refine(currentRefinement + 1);
+  };
+
+  const loadPreviousProducts = async () => {
+    if (isFirstPage) return;
+    refine(currentRefinement - 1);
   };
 
   if (loading) {
@@ -48,29 +63,40 @@ const ProductsGrid = ({ products, next, back, loading }: ProductsGridProps) => {
   return (
     <div className="ProductsGridWrapper">
       <div className="ProductsGrid">
-        {products.map((product) => {
-          const variant = product.variants?.nodes[0];
-          if (!variant) return undefined;
+        {hits.map((hit) => {
+          const qty = amountInCart(hit.id);
           return (
             <div
-              key={product.id}
+              key={hit.id}
               className="ProductCard"
-              onClick={() => selectProduct(product.handle)}
+              onClick={() => selectProduct(hit.handle)}
             >
               <div className="CardTop">
-                <img
-                  src={
-                    product.featuredImage?.url ||
-                    defaultImage(product.productType)
-                  }
-                  alt={product.featuredImage?.altText || product.title}
-                />
+                <img src={hit.img || defaultImage(hit.type)} alt={hit.title} />
                 <div className="CardTitle">
-                  <h4>{truncate(product.title, 1000)}</h4>
+                  <h4>{truncate(hit.title, 1000)}</h4>
                 </div>
               </div>
               <div className="Categories">
-                <p>{product.productType}</p>
+                <p>{hit.region}</p>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    color: "var(--brand-lm-10-mid)",
+                  }}
+                >
+                  <p
+                    style={{ fontWeight: 700, color: "var(--brand-lm-10-mid)" }}
+                  >
+                    {hit.year}
+                  </p>
+                  <p style={{ color: "var(--brand-lm-10-mid)" }}>
+                    {hit.grapes}
+                  </p>
+                </div>
                 <div
                   style={{
                     display: "flex",
@@ -78,39 +104,65 @@ const ProductsGrid = ({ products, next, back, loading }: ProductsGridProps) => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <p>{parseVolumes(product.description)}</p>
+                  <p>
+                    {hit.volume
+                      ? parseVolumes(hit.volume)
+                      : formatPackage(hit.package)}
+                  </p>
                   <span className="Price">
-                    {formatMoney(variant.price, true)}
+                    {formatMoney(
+                      { amount: hit.price, currencyCode: "USD" },
+                      true
+                    )}
                   </span>
                 </div>
               </div>
-              <div
-                className="CartAdd"
-                onClick={(e) => handleAdd(e, variant.id)}
-              >
-                {adding === variant.id ||
-                (removing && removing === isInCart(variant.id)) ? (
-                  <BeatLoader color="white" size={6} />
-                ) : isInCart(variant.id) ? (
-                  <MdCheck />
-                ) : (
+              {qty <= 0 ? (
+                <div
+                  className="AddToCart"
+                  onClick={(e) => handleAdd(e, hit.id)}
+                >
+                  Add to Cart
                   <MdAddShoppingCart />
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="CartCounter">
+                  {qty === 1 ? (
+                    <TiDeleteOutline
+                      className="CartInteract"
+                      onClick={(e) => handleRemove(e, hit.id)}
+                    />
+                  ) : (
+                    <MdRemoveCircleOutline
+                      className="CartInteract"
+                      onClick={(e) => handleRemove(e, hit.id)}
+                    />
+                  )}
+                  <div className="AmtInCart">{qty}</div>
+
+                  <MdAddCircleOutline
+                    className="CartInteract"
+                    color={qty >= hit.qty ? "#aaa" : ""}
+                    onClick={(e) =>
+                      qty >= hit.qty ? undefined : handleAdd(e, hit.id)
+                    }
+                  />
+                </div>
+              )}
             </div>
           );
         })}
       </div>
       <div className="Pagination">
         <div
-          className={back ? "PageButton" : "PageButton Invisible"}
-          onClick={back}
+          className={!isFirstPage ? "PageButton" : "PageButton Invisible"}
+          onClick={loadPreviousProducts}
         >
           Back
         </div>
         <div
-          className={next ? "PageButton" : "PageButton Invisible"}
-          onClick={next}
+          className={!isLastPage ? "PageButton" : "PageButton Invisible"}
+          onClick={loadNextProducts}
         >
           Next
         </div>

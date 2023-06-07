@@ -1,76 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./Cellar.css";
-import { fetchProducts } from "../../../functions/actions";
 import ProductsGrid from "../../organisms/ProductsGrid/ProductsGrid";
 import GridOptions from "../../molecules/GridOptions/GridOptions";
-import { ProductSortKeys } from "../../../global.d";
+import { useInstantSearch } from "react-instantsearch-hooks-web";
 
 interface ProductsPageProps {}
 
 const ProductsPage = ({ ...props }: ProductsPageProps) => {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const [startCursor, setStartCursor] = useState<string | undefined>();
-  const [endCursor, setEndCursor] = useState<string | undefined>();
-  const [hasPrevPage, setHasPrevPage] = useState(false);
-  const [hasNextPage, setHasNextPage] = useState(false);
-  const [loadingProducts, setLoadingProducts] = useState(true);
-
-  const newFetch = async ({
-    ...props
-  }: {
-    back?: boolean;
-    cursor?: string;
-    productType?: string;
-    sortKey?: ProductSortKeys;
-    reverse?: boolean;
-  }) => {
-    setLoadingProducts(true);
-    const fetched = await fetchProducts({
-      amount: 18,
-      descriptionTruncate: 6,
-      back: props.back,
-      cursor: props.cursor,
-      productType: props.productType,
-      reverse: props.reverse,
-      sortKey: props.sortKey,
-    });
-    setProducts(fetched.products);
-    setStartCursor(fetched.pageInfo.startCursor);
-    setEndCursor(fetched.pageInfo.endCursor);
-    setHasNextPage(fetched.pageInfo.hasNextPage);
-    setHasPrevPage(fetched.pageInfo.hasPreviousPage);
-    setLoadingProducts(false);
-  };
+  //Algolia
+  const { results } = useInstantSearch();
+  const [hits, setHits] = useState<any[]>([]);
 
   useEffect(() => {
-    const initFetch = async () => {
-      newFetch({});
-    };
-    initFetch();
-  }, []);
-
-  const loadNextProducts = async () => {
-    if (!hasNextPage) return;
-    newFetch({ cursor: endCursor });
-  };
-
-  const loadPreviousProducts = async () => {
-    if (!hasPrevPage) return;
-    newFetch({ back: true, cursor: startCursor });
-  };
-
-  const filterProducts = ({
-    productType,
-    sortKey,
-    reverse,
-  }: {
-    productType?: string;
-    sortKey?: ProductSortKeys;
-    reverse?: boolean;
-  }) => {
-    newFetch({ productType, sortKey, reverse });
-  };
+    setHits(results.hits);
+  }, [results]);
 
   return (
     <div className="ProductsPage">
@@ -80,12 +23,24 @@ const ProductsPage = ({ ...props }: ProductsPageProps) => {
           <h6>For your eyes only.</h6>
           <div className="Line" />
         </div>
-        <GridOptions filterProducts={filterProducts} />
+        <GridOptions />
         <ProductsGrid
-          products={products}
-          next={hasNextPage ? loadNextProducts : undefined}
-          back={hasPrevPage ? loadPreviousProducts : undefined}
-          loading={loadingProducts}
+          hits={hits.map<Hit>((hit) => ({
+            title: hit.title,
+            price: hit.price,
+            qty: hit.inventory_quantity,
+            updated: new Date(hit.updated_at),
+            id: hit.objectID,
+            type: hit.product_type,
+            region: hit.meta?.custom?.region || "",
+            volume: hit.meta?.custom?.volume || 0,
+            package: hit.meta?.custom?.package || 1,
+            year: hit.meta?.custom?.year || 2023,
+            grapes: hit.meta?.custom?.grapes || "",
+            handle: hit.handle,
+            img: hit.product_image,
+          }))}
+          loading={!hits}
         />
       </div>
     </div>

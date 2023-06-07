@@ -11,6 +11,23 @@ export enum ProductSortKeys {
 }
 
 declare global {
+  //*** Algolia Search */
+  export interface Hit {
+    title: string;
+    price: number;
+    qty: number;
+    updated: Date;
+    id: string;
+    type: string;
+    region: string;
+    volume: number;
+    package: number;
+    year: number;
+    grapes: string;
+    handle: string;
+    img?: string;
+  }
+
   //shopify 2023-01 storefront api
   //*** API Calls */
   export interface FetchProductsResponse {
@@ -44,6 +61,7 @@ declare global {
     availableForSale: boolean;
     currentlyNotInStock: boolean;
     product?: Product;
+    quantityAvailable: number;
   }
   export interface Product {
     id: string;
@@ -56,6 +74,8 @@ declare global {
       nodes: ProductVariant[];
       pageInfo: PageInfo;
     };
+    totalInventory?: number;
+    metafields?: { value: string; key: string }[];
   }
   export interface PageInfo {
     startCursor: string;
@@ -131,7 +151,7 @@ declare global {
   }
 
   export interface Money {
-    amount: string;
+    amount: string | number;
     currencyCode: string;
   }
   export interface CartLine {

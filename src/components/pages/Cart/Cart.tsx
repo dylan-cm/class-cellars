@@ -4,10 +4,14 @@ import LoadingDisplay from "../../atoms/LoadingDisplay";
 import EmptyCart from "../../molecules/EmptyCart/EmptyCart";
 import ErrorDisplay from "../../molecules/ErrorDisplay/ErrorDisplay";
 import { defaultImage, formatMoney } from "../../../functions/utilities";
-import { BeatLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../../functions/contextProviders";
-import { MdOutlineOpenInNew } from "react-icons/md";
+import {
+  MdAddCircleOutline,
+  MdOutlineOpenInNew,
+  MdRemoveCircleOutline,
+} from "react-icons/md";
+import { TiDeleteOutline } from "react-icons/ti";
 
 interface CartProps {}
 
@@ -32,13 +36,16 @@ const Cart = ({ ...props }: CartProps) => {
     return <EmptyCart />; // Use EmptyCart component
   }
 
-  const handleRemoveFromCart = async (
-    lineId: string,
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleRemove = async (e: React.MouseEvent<any>, lineId: string) => {
     e.stopPropagation();
     if (cartContext.removing) return;
     cartContext.removeFromCart(lineId);
+  };
+
+  const handleAdd = async (e: React.MouseEvent<any>, lineId: string) => {
+    e.stopPropagation();
+    if (cartContext.adding) return;
+    cartContext.addToCart(lineId);
   };
 
   const goToCheckout = () => {
@@ -65,9 +72,11 @@ const Cart = ({ ...props }: CartProps) => {
       <div className="Wrapper">
         {cart?.lines?.nodes.map((node) => {
           const lineId = node.id;
+          const regexArr = node.merchandise.id.match(/\d+$/);
+          const merchandiseId = regexArr ? regexArr[0] : "";
           return (
             <div
-              key={node.merchandise.id}
+              key={lineId}
               className="CartItem"
               onClick={() =>
                 navigate(`/cart/${node.merchandise.product?.handle}`)
@@ -93,18 +102,37 @@ const Cart = ({ ...props }: CartProps) => {
                     currencyCode: node.merchandise.price.currencyCode,
                   })}
                 </p>
-                <button
-                  onClick={(e) => handleRemoveFromCart(lineId, e)}
-                  className={
-                    lineId === cartContext.removing ? "RemoveLoading" : ""
+                <div className="CartModifier">
+                  {
+                    <div className="CartCounter">
+                      {node.quantity === 1 ? (
+                        <TiDeleteOutline
+                          className="CartInteract"
+                          onClick={(e) => handleRemove(e, merchandiseId)}
+                        />
+                      ) : (
+                        <MdRemoveCircleOutline
+                          className="CartInteract"
+                          onClick={(e) => handleRemove(e, merchandiseId)}
+                        />
+                      )}
+                      <div className="AmtInCart">{node.quantity}</div>
+                      <MdAddCircleOutline
+                        className="CartInteract"
+                        color={
+                          node.quantity >= node.merchandise.quantityAvailable
+                            ? "#aaa"
+                            : ""
+                        }
+                        onClick={(e) =>
+                          node.quantity >= node.merchandise.quantityAvailable
+                            ? undefined
+                            : handleAdd(e, merchandiseId)
+                        }
+                      />
+                    </div>
                   }
-                >
-                  {lineId === cartContext.removing ? (
-                    <BeatLoader size={8} color={"#ffffff"} loading={true} />
-                  ) : (
-                    "Remove"
-                  )}
-                </button>
+                </div>
               </div>
             </div>
           );

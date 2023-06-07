@@ -9,6 +9,8 @@ import Root from "./Root";
 import Cart from "./components/pages/Cart/Cart";
 import { BeatLoader } from "react-spinners";
 import NotFound from "./components/pages/NotFound/NotFound";
+import { InstantSearch } from "react-instantsearch-hooks-web";
+import algoliasearch from "algoliasearch/lite";
 
 const Home = lazy(() => import("./components/pages/Home/Home"));
 const ProductsPage = lazy(() => import("./components/pages/Cellar/Cellar"));
@@ -29,6 +31,11 @@ const suspenseful = (element: JSX.Element) => {
     </Suspense>
   );
 };
+
+const searchClient = algoliasearch(
+  process.env.REACT_APP_ALGOLIA_APP_ID || "",
+  process.env.REACT_APP_ALGOLIA_API_KEY || ""
+);
 
 const router = createBrowserRouter([
   {
@@ -66,7 +73,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   // <React.StrictMode>
-  <RouterProvider router={router} />
+  <InstantSearch searchClient={searchClient} indexName="shopify_products">
+    <RouterProvider router={router} />
+  </InstantSearch>
   // </React.StrictMode>
 );
 
