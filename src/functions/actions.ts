@@ -330,10 +330,16 @@ export const removeFromCart = async (lineId: string): Promise<Cart> => {
       responseBody: ${JSON.stringify(responseBody.errors)}
       `
     );
-  if (responseBody?.data?.cartLinesRemove?.userErrors.length > 0)
-    throw new Error(
-      `api error: ${responseBody?.data?.cartLinesRemove?.userErrors}`
+  if (responseBody?.data?.cartLinesRemove?.userErrors.length > 0) {
+    console.log(
+      `api error: ${JSON.stringify(
+        responseBody?.data?.cartLinesRemove?.userErrors
+      )}`,
+      "creating new cart and trying to refreshing page again"
     );
+    const updatedCart = await createCart();
+    return updatedCart;
+  }
   if (!responseBody?.data?.cartLinesRemove?.cart?.checkoutUrl)
     throw new Error(`No checkout url provided`);
   if (!responseBody?.data?.cartLinesRemove?.cart?.id)
@@ -389,7 +395,7 @@ export const addToCart = async (merchandiseId: string): Promise<Cart> => {
     ) || [];
 
   if (merchandiseInCart.includes(merchandiseId)) {
-    throw new Error("Merchandise is already in the cart");
+    throw new Error(`Merchandise is already in the cart: ${merchandiseId}`);
   }
 
   const query = `
@@ -420,10 +426,16 @@ export const addToCart = async (merchandiseId: string): Promise<Cart> => {
       responseBody: ${JSON.stringify(responseBody.errors)}
       `
     );
-  if (responseBody?.data?.cartLinesAdd?.userErrors.length > 0)
-    throw new Error(
-      `api error: ${responseBody?.data?.cartLinesAdd?.userErrors}`
+  if (responseBody?.data?.cartLinesAdd?.userErrors.length > 0) {
+    console.log(
+      `api error: ${JSON.stringify(
+        responseBody?.data?.cartLinesAdd?.userErrors
+      )}`,
+      "creating new cart and trying to add again"
     );
+    await createCart();
+    return await addToCart(merchandiseId);
+  }
   if (!responseBody?.data?.cartLinesAdd?.cart?.checkoutUrl) {
     throw new Error(`No checkout url provided`);
   }
@@ -455,10 +467,11 @@ export const getCart = async (givenCartId?: string): Promise<Cart> => {
     data: { cart: Cart };
   } = await response.json();
   if (!responseBody?.data?.cart?.id || !responseBody?.data?.cart?.checkoutUrl) {
-    throw new Error(
+    console.log(
       `[${response.status}]: ${response.statusText}
       Failed to fetch cart.`
     );
+    return await createCart();
   }
 
   return responseBody.data.cart;

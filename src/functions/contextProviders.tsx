@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { addToCart, getCart, removeFromCart, updateCartLine } from "./actions";
 import { formatMerchId } from "./utilities";
-//todo: check for completed checkout
+
 interface CartContextProps {
   cart?: Cart;
   cartQuantity: number;
@@ -63,10 +63,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     let line = cart.lines.nodes.find(
       (line) => line.merchandise.id === merchandiseId
     );
-    // console.log("line", cart.lines.nodes[0].merchandise.id);
-    // console.log("formatted", merchandiseId);
-    // console.log("input", id);
-    // console.log("first", cart.lines.nodes[0].merchandise.id === merchandiseId);
     return line;
   };
 
