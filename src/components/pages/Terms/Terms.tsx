@@ -11,21 +11,17 @@ const Terms = ({ ...props }: TermsProps) => {
       <h3>Shipping</h3>
       <p>
         <br />
-        You must be 21 years or older to order alcoholic beverages from us.
+        You must be 21 years or older to purchase alcoholic beverages from us.
         Signature of a person at least 21 years of age is required for all
         deliveries of alcoholic beverages.
         <br />
         <br />
-        Shipping invoices will be invoiced separately to ensure most accurate
-        pricing based on weight, as well as the number of packages per order.
+        Shipping charges will be invoiced separately from wine charges to ensure
+        accurate pricing based on weight as well as on the number of packages
+        per order.
         <br />
         <br />
         We do not ship to PO Boxes.
-        <br />
-        <br />
-        We only ship to the following states: Alaska, California, Idaho,
-        Louisiana, Missouri, Nebraska, Nevada, New Hampshire, New Mexico, North
-        Dakota, Oregon, Virginia, Washington, D.C., West Virginia and Wyoming.
         <br />
         <br />
         <br />

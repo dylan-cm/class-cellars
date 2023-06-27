@@ -1,14 +1,19 @@
 import React from "react";
 import "./About.css";
-
 import AboutImage from "../../../assets/about_image.jpg";
 import Wave from "../../../assets/about-layered-wave.svg";
-
 import Barrels from "../../../assets/barrels.svg";
+import { useNavigate } from "react-router-dom";
 
 interface AboutProps {}
 
 const About = ({ ...props }: AboutProps) => {
+  const navigate = useNavigate();
+  const focusInput = () => {
+    navigate("#newsletter");
+    const emailCaptureInput = document.getElementById("emailCaptureInputHero");
+    if (emailCaptureInput) emailCaptureInput.focus();
+  };
   return (
     <div className="About">
       <img className="Wave" src={Wave} alt="About" />
@@ -17,6 +22,15 @@ const About = ({ ...props }: AboutProps) => {
         <div className="BarrelGradient" />
         <img className="Barrels" src={Barrels} alt="barrels" />
         <div className="AboutBackgroundColor" />
+        <div className="Invitation">
+          <h2>
+            We invite you to sign up for our mailing list to assure your
+            receiving our exclusive offers.
+          </h2>
+          <div className="JoinButton" onClick={focusInput}>
+            Get Insider Access
+          </div>
+        </div>
         <div className="TopRow">
           <div className="Fun">
             <div
