@@ -14,9 +14,10 @@ import {
   MdRemoveCircleOutline,
 } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
-import LoadingDisplay from "../../atoms/LoadingDisplay";
+import LoadingDisplay from "../../atoms/LoadingDisplay/LoadingDisplay";
 import { CartContext } from "../../../functions/contextProviders";
 import { usePagination } from "react-instantsearch-hooks-web";
+import GridLoading from "../../molecules/GridLoading/GridLoading";
 
 interface ProductsGridProps {
   hits: Hit[];
@@ -56,7 +57,7 @@ const ProductsGrid = ({ hits, loading }: ProductsGridProps) => {
   if (loading) {
     return (
       <div className="ProductsGridWrapper">
-        <LoadingDisplay />
+        <GridLoading />
       </div>
     );
   }

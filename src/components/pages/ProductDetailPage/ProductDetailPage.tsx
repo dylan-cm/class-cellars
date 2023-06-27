@@ -10,7 +10,7 @@ import {
   MdRemoveCircleOutline,
 } from "react-icons/md";
 import { CartContext } from "../../../functions/contextProviders";
-import LoadingDisplay from "../../atoms/LoadingDisplay";
+import LoadingDisplay from "../../atoms/LoadingDisplay/LoadingDisplay";
 import ErrorDisplay from "../../molecules/ErrorDisplay/ErrorDisplay";
 import { TiDeleteOutline } from "react-icons/ti";
 

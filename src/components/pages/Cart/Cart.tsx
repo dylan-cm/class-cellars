@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Cart.css";
-import LoadingDisplay from "../../atoms/LoadingDisplay";
+import LoadingDisplay from "../../atoms/LoadingDisplay/LoadingDisplay";
 import EmptyCart from "../../molecules/EmptyCart/EmptyCart";
 import ErrorDisplay from "../../molecules/ErrorDisplay/ErrorDisplay";
 import { defaultImage, formatMoney } from "../../../functions/utilities";
