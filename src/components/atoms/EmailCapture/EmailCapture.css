@@ -43,6 +43,8 @@
   font-weight: 600;
   font-size: 18px;
   text-align: center;
+  white-space: nowrap;
+  padding: 0px 12px;
 
   cursor: pointer;
   user-select: none;
