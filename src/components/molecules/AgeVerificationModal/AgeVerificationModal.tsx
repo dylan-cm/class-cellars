@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./AgeVerificationModal.css";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as WineStainDark } from "../../../assets/wine_stain_dark.svg";
+import { ReactComponent as WineStainLight } from "../../../assets/wine_stains.svg";
 
 const AgeVerificationModal = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -34,15 +36,21 @@ const AgeVerificationModal = () => {
       className={`Modal ${modalIsOpen ? "" : "Hidden"}`}
       onClick={handleClose}
     >
+      <div className="WineStainDark">
+        <WineStainDark />
+      </div>
       <div className="ModalContent">
-        <h2>Age Verification</h2>
+        <div className="WineStainLight">
+          <WineStainLight />
+        </div>
+        <h2>Welcome to Classified Cellars</h2>
         <p>Are you 21 or older?</p>
         <div className="Row">
-          <button className="ModalButton" onClick={handleConfirm}>
-            Yes
-          </button>
-          <button className="ModalButton" onClick={handleDeny}>
+          <button className="ModalButton No" onClick={handleDeny}>
             No
+          </button>
+          <button className="ModalButton Yes" onClick={handleConfirm}>
+            Yes
           </button>
         </div>
       </div>
