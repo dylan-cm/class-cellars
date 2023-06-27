@@ -4,6 +4,7 @@ import EmailCapture from "../../atoms/EmailCapture/EmailCapture";
 // import { HashLink } from "react-router-hash-link";
 import TopWave from "../../../assets/cta_wave_top.svg";
 import BottomWave from "../../../assets/cta_wave_bottom.svg";
+import { NavLink } from "react-router-dom";
 
 interface FooterProps {}
 
@@ -29,16 +30,9 @@ const Footer = ({ ...props }: FooterProps) => {
             <li>
               <a href="mailto:info@classifiedcellars.com">Contact Us</a>
             </li>
-            {/* <li>
-              <HashLink to="/#about" smooth>
-                About
-              </HashLink>
-            </li>
             <li>
-              <HashLink to="/#newsletter" smooth>
-                Home
-              </HashLink>
-            </li> */}
+              <NavLink to={"terms"}>Payments & Shipping</NavLink>
+            </li>
           </ul>
           <span className="Little">
             © 2023 Classified Cellars. All Rights Reserved.

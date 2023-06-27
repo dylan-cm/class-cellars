@@ -11,6 +11,7 @@ import { BeatLoader } from "react-spinners";
 import NotFound from "./components/pages/NotFound/NotFound";
 import { InstantSearch } from "react-instantsearch-hooks-web";
 import algoliasearch from "algoliasearch/lite";
+import Terms from "./components/pages/Terms/Terms";
 
 const Home = lazy(() => import("./components/pages/Home/Home"));
 const ProductsPage = lazy(() => import("./components/pages/Cellar/Cellar"));
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: "/cellar/:productHandle",
         element: suspenseful(<ProductDetailPage back="cellar" />),
+      },
+      {
+        path: "/terms",
+        element: suspenseful(<Terms />),
       },
     ],
   },
